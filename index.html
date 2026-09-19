@@ -3,101 +3,285 @@
 
 <head>
 
-<title>Meowmad's Website</title>
+<title>Meowmad</title>
 
 <style>
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
+    background: #0d0d0d;
+    color: #e8e6e1;
     font-family: Arial, sans-serif;
-    background: #080014;
+}
+
+/* NAVIGATION */
+
+nav {
+    height: 80px;
+    padding: 0 7%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 1px solid #252525;
+}
+
+.logo {
+    font-size: 15px;
+    letter-spacing: 3px;
+    font-weight: bold;
+}
+
+nav a {
+    color: #999;
+    text-decoration: none;
+    margin-left: 25px;
+    font-size: 13px;
+}
+
+nav a:hover {
     color: white;
-    text-align: center;
 }
 
-header {
-    padding: 25px;
-    background: #120024;
-    border-bottom: 2px solid #a855f7;
-}
 
-header h2 {
-    color: #67e8f9;
-    margin: 0;
-}
+/* HERO */
 
 .hero {
-    padding: 100px 20px;
-    background: linear-gradient(135deg, #080014, #210044, #001b2e);
+    min-height: 82vh;
+
+    padding: 120px 8%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.cat {
-    font-size: 80px;
+.small {
+    color: #777;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
 }
 
 h1 {
-    font-size: 55px;
-    margin: 20px;
-    color: #67e8f9;
-    text-shadow: 0 0 15px #06b6d4;
+    font-family: Georgia, serif;
+
+    font-size: clamp(50px, 9vw, 110px);
+
+    font-weight: normal;
+
+    line-height: 0.95;
+
+    max-width: 900px;
+
+    margin: 0;
 }
 
-p {
-    font-size: 20px;
-    color: #cccccc;
+h1 span {
+    color: #777;
+    font-style: italic;
 }
 
-button {
-    margin-top: 25px;
-    padding: 15px 30px;
-    font-size: 18px;
-    font-weight: bold;
+.description {
+    max-width: 470px;
+
+    margin-top: 35px;
+
+    color: #888;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* BUTTON */
+
+.button {
+    display: inline-block;
+
+    width: fit-content;
+
+    margin-top: 35px;
+
+    padding: 13px 22px;
+
+    border: 1px solid #444;
+
     color: white;
-    background: #7c3aed;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    box-shadow: 0 0 20px #7c3aed;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    transition: 0.3s;
 }
 
-button:hover {
-    background: #a855f7;
-    box-shadow: 0 0 35px #a855f7;
+.button:hover {
+    background: white;
+    color: black;
 }
 
-.section {
-    padding: 70px 20px;
+
+/* DIVIDER */
+
+.line {
+    width: 85%;
+
+    height: 1px;
+
+    background: #252525;
+
+    margin: auto;
 }
 
-.cards {
+
+/* ABOUT */
+
+.about {
+    padding: 120px 8%;
+
+    display: grid;
+
+    grid-template-columns: 1fr 2fr;
+
+    gap: 60px;
+}
+
+.about-title {
+    color: #666;
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+}
+
+.about-text {
+    max-width: 650px;
+
+    font-family: Georgia, serif;
+
+    font-size: 28px;
+
+    line-height: 1.5;
+}
+
+
+/* PROJECTS */
+
+.projects {
+    padding: 100px 8%;
+}
+
+.projects-title {
+    margin-bottom: 50px;
+
+    font-family: Georgia, serif;
+
+    font-size: 40px;
+
+    font-weight: normal;
+}
+
+.project {
     display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 28px 0;
+
+    border-top: 1px solid #252525;
+
+    transition: 0.3s;
 }
 
-.card {
-    width: 200px;
-    padding: 25px;
-    background: #140021;
-    border: 1px solid #7c3aed;
-    border-radius: 15px;
-    box-shadow: 0 0 15px #7c3aed55;
+.project:last-child {
+    border-bottom: 1px solid #252525;
 }
 
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 0 30px #a855f7;
+.project:hover {
+    padding-left: 15px;
 }
 
-.card h3 {
-    color: #67e8f9;
+.project-name {
+    font-size: 18px;
 }
+
+.project-type {
+    color: #666;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+}
+
+
+/* FOOTER */
 
 footer {
-    padding: 25px;
-    background: #120024;
-    color: #888888;
+    padding: 70px 8% 30px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #555;
+
+    font-size: 12px;
+
+    border-top: 1px solid #252525;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    nav {
+        padding: 0 5%;
+    }
+
+    nav a {
+        margin-left: 12px;
+    }
+
+    .hero {
+        padding: 100px 7%;
+    }
+
+    h1 {
+        font-size: 55px;
+    }
+
+    .about {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .about-text {
+        font-size: 23px;
+    }
+
+    .project {
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 15px;
+    }
+
 }
 
 </style>
@@ -108,101 +292,149 @@ footer {
 <body>
 
 
-<header>
+<!-- NAVIGATION -->
 
-<h2>🐱 MEOWMAD</h2>
+<nav>
 
-</header>
+<div class="logo">
+MEOWMAD
+</div>
 
+<div>
+
+<a href="#about">ABOUT</a>
+
+<a href="#work">WORK</a>
+
+</div>
+
+</nav>
+
+
+<!-- HERO -->
 
 <div class="hero">
 
-<div class="cat">😼</div>
+<div class="small">
+PERSONAL SPACE · 2026
+</div>
 
-<h1>Welcome to Meowmad's Website</h1>
+<h1>
+Welcome to<br>
+<span>Meowmad's website.</span>
+</h1>
 
-<p>
-Welcome to the coolest corner of the internet.
+<p class="description">
+A small corner of the internet for ideas,
+projects, experiments, and things I find interesting.
 </p>
 
-<button onclick="alert('WELCOME TO THE MEOW ZONE! 😼🔥')">
-ENTER THE MEOW ZONE
-</button>
+<a class="button" href="#about">
+ENTER →
+</a>
 
 </div>
 
 
-<div class="section">
-
-<h2>🔥 Meowmad Zone</h2>
-
-<div class="cards">
+<div class="line"></div>
 
 
-<div class="card">
+<!-- ABOUT -->
 
-<h3>🎮 Gaming</h3>
+<div class="about" id="about">
 
-<p>
-Games, fun and epic moments.
-</p>
-
+<div class="about-title">
+01 — About
 </div>
 
+<div class="about-text">
 
-<div class="card">
-
-<h3>💻 Coding</h3>
-
-<p>
-Building cool stuff on the internet.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<h3>🐈 Cats</h3>
-
-<p>
-Maximum meow. Maximum chaos.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<h3>🔥 Chaos</h3>
-
-<p>
-Random awesome things happening.
-</p>
-
-</div>
-
+I like making things, exploring random ideas,
+and turning whatever is in my head into something
+that actually exists.
 
 </div>
 
 </div>
 
 
-<div class="section">
+<div class="line"></div>
 
-<h2>🌌 About Meowmad</h2>
 
-<p>
-This is my website where I can share my projects,
-games, ideas and whatever else I make.
-</p>
+<!-- PROJECTS -->
+
+<div class="projects" id="work">
+
+<div class="projects-title">
+Selected things.
+</div>
+
+
+<div class="project">
+
+<div class="project-name">
+Website Experiments
+</div>
+
+<div class="project-type">
+WEB
+</div>
 
 </div>
 
+
+<div class="project">
+
+<div class="project-name">
+Creative Projects
+</div>
+
+<div class="project-type">
+CREATE
+</div>
+
+</div>
+
+
+<div class="project">
+
+<div class="project-name">
+Random Ideas
+</div>
+
+<div class="project-type">
+MISC
+</div>
+
+</div>
+
+
+<div class="project">
+
+<div class="project-name">
+Coming Soon
+</div>
+
+<div class="project-type">
+??? 
+</div>
+
+</div>
+
+</div>
+
+
+<!-- FOOTER -->
 
 <footer>
 
-🐱 Made by Meowmad © 2026
+<div>
+© 2026 MEOWMAD
+</div>
+
+<div>
+MADE ON THE INTERNET
+</div>
 
 </footer>
 
