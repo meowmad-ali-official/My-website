@@ -7,279 +7,150 @@
 
 <style>
 
-* {
-    box-sizing: border-box;
-}
-
 body {
     margin: 0;
-    background: #0d0d0d;
-    color: #e8e6e1;
+    background: #f1f0eb;
+    color: #222;
     font-family: Arial, sans-serif;
 }
 
-/* NAVIGATION */
+.container {
+    width: 85%;
+    max-width: 900px;
+    margin: auto;
+}
 
 nav {
-    height: 80px;
-    padding: 0 7%;
-
+    padding: 25px 0;
+    border-bottom: 1px solid #ccc;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-
-    border-bottom: 1px solid #252525;
 }
 
 .logo {
-    font-size: 15px;
-    letter-spacing: 3px;
+    font-size: 14px;
     font-weight: bold;
 }
 
 nav a {
-    color: #999;
+    color: #555;
     text-decoration: none;
-    margin-left: 25px;
+    margin-left: 20px;
     font-size: 13px;
 }
 
 nav a:hover {
-    color: white;
+    color: #000;
 }
 
-
-/* HERO */
-
 .hero {
-    min-height: 82vh;
-
-    padding: 120px 8%;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    padding: 120px 0;
 }
 
 .small {
-    color: #777;
     font-size: 12px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    margin-bottom: 25px;
+    color: #888;
+    margin-bottom: 20px;
 }
 
 h1 {
-    font-family: Georgia, serif;
-
-    font-size: clamp(50px, 9vw, 110px);
-
+    font-size: 55px;
     font-weight: normal;
-
-    line-height: 0.95;
-
-    max-width: 900px;
-
     margin: 0;
+    line-height: 1;
 }
 
-h1 span {
-    color: #777;
-    font-style: italic;
-}
-
-.description {
-    max-width: 470px;
-
-    margin-top: 35px;
-
-    color: #888;
-
+.subtitle {
+    color: #666;
     font-size: 16px;
-
-    line-height: 1.7;
+    margin-top: 25px;
+    max-width: 500px;
+    line-height: 1.6;
 }
-
-
-/* BUTTON */
-
-.button {
-    display: inline-block;
-
-    width: fit-content;
-
-    margin-top: 35px;
-
-    padding: 13px 22px;
-
-    border: 1px solid #444;
-
-    color: white;
-
-    text-decoration: none;
-
-    font-size: 13px;
-
-    transition: 0.3s;
-}
-
-.button:hover {
-    background: white;
-    color: black;
-}
-
-
-/* DIVIDER */
 
 .line {
-    width: 85%;
-
-    height: 1px;
-
-    background: #252525;
-
-    margin: auto;
+    border-top: 1px solid #ccc;
 }
 
-
-/* ABOUT */
-
-.about {
-    padding: 120px 8%;
-
-    display: grid;
-
-    grid-template-columns: 1fr 2fr;
-
-    gap: 60px;
+.section {
+    padding: 70px 0;
 }
 
-.about-title {
-    color: #666;
-
+.section-title {
     font-size: 12px;
-
-    letter-spacing: 3px;
-
+    color: #888;
+    margin-bottom: 25px;
     text-transform: uppercase;
-}
-
-.about-text {
-    max-width: 650px;
-
-    font-family: Georgia, serif;
-
-    font-size: 28px;
-
-    line-height: 1.5;
-}
-
-
-/* PROJECTS */
-
-.projects {
-    padding: 100px 8%;
-}
-
-.projects-title {
-    margin-bottom: 50px;
-
-    font-family: Georgia, serif;
-
-    font-size: 40px;
-
-    font-weight: normal;
-}
-
-.project {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding: 28px 0;
-
-    border-top: 1px solid #252525;
-
-    transition: 0.3s;
-}
-
-.project:last-child {
-    border-bottom: 1px solid #252525;
-}
-
-.project:hover {
-    padding-left: 15px;
-}
-
-.project-name {
-    font-size: 18px;
-}
-
-.project-type {
-    color: #666;
-
-    font-size: 12px;
-
     letter-spacing: 2px;
 }
 
-
-/* FOOTER */
-
-footer {
-    padding: 70px 8% 30px;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    color: #555;
-
-    font-size: 12px;
-
-    border-top: 1px solid #252525;
+.about {
+    max-width: 600px;
+    font-size: 20px;
+    line-height: 1.6;
 }
 
+.note {
+    margin-top: 35px;
+    padding: 15px;
+    border-left: 2px solid #999;
+    color: #777;
+    font-size: 13px;
+}
 
-/* MOBILE */
+.projects {
+    display: grid;
+    gap: 0;
+}
 
-@media (max-width: 700px) {
+.project {
+    padding: 22px 0;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+}
 
-    nav {
-        padding: 0 5%;
-    }
+.project:first-child {
+    border-top: 1px solid #ccc;
+}
 
-    nav a {
-        margin-left: 12px;
+.project-name {
+    font-size: 15px;
+}
+
+.project-number {
+    color: #999;
+    font-size: 12px;
+}
+
+footer {
+    padding: 50px 0;
+    color: #999;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cat {
+    font-size: 25px;
+}
+
+@media (max-width: 600px) {
+
+    h1 {
+        font-size: 40px;
     }
 
     .hero {
-        padding: 100px 7%;
-    }
-
-    h1 {
-        font-size: 55px;
-    }
-
-    .about {
-        grid-template-columns: 1fr;
-        gap: 25px;
-    }
-
-    .about-text {
-        font-size: 23px;
+        padding: 90px 0;
     }
 
     .project {
-        align-items: flex-start;
-        gap: 20px;
+        display: block;
     }
 
-    footer {
-        flex-direction: column;
-        gap: 15px;
+    .project-number {
+        margin-top: 5px;
     }
 
 }
@@ -292,7 +163,8 @@ footer {
 <body>
 
 
-<!-- NAVIGATION -->
+<div class="container">
+
 
 <nav>
 
@@ -302,57 +174,30 @@ MEOWMAD
 
 <div>
 
-<a href="#about">ABOUT</a>
+<a href="#about">about</a>
 
-<a href="#work">WORK</a>
+<a href="#stuff">stuff</a>
 
 </div>
 
 </nav>
 
 
-<!-- HERO -->
-
 <div class="hero">
 
 <div class="small">
-PERSONAL SPACE · 2026
+hello, internet.
 </div>
 
 <h1>
 Welcome to<br>
-<span>Meowmad's website.</span>
+Meowmad's website.
 </h1>
 
-<p class="description">
-A small corner of the internet for ideas,
-projects, experiments, and things I find interesting.
-</p>
-
-<a class="button" href="#about">
-ENTER →
-</a>
-
-</div>
-
-
-<div class="line"></div>
-
-
-<!-- ABOUT -->
-
-<div class="about" id="about">
-
-<div class="about-title">
-01 — About
-</div>
-
-<div class="about-text">
-
-I like making things, exploring random ideas,
-and turning whatever is in my head into something
-that actually exists.
-
+<div class="subtitle">
+A small website made for no particular reason.
+<br>
+You found it anyway.
 </div>
 
 </div>
@@ -361,36 +206,62 @@ that actually exists.
 <div class="line"></div>
 
 
-<!-- PROJECTS -->
+<div class="section" id="about">
 
-<div class="projects" id="work">
+<div class="section-title">
+01 / about
+</div>
 
-<div class="projects-title">
-Selected things.
+<div class="about">
+
+I'm Meowmad.
+
+I make things sometimes, learn things sometimes,
+and spend way too much time thinking about websites.
+
+<div class="note">
+currently: figuring things out.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="line"></div>
+
+
+<div class="section" id="stuff">
+
+<div class="section-title">
+02 / things
+</div>
+
+
+<div class="projects">
+
+
+<div class="project">
+
+<div class="project-name">
+random website ideas
+</div>
+
+<div class="project-number">
+01
+</div>
+
 </div>
 
 
 <div class="project">
 
 <div class="project-name">
-Website Experiments
+games I probably shouldn't play
 </div>
 
-<div class="project-type">
-WEB
-</div>
-
-</div>
-
-
-<div class="project">
-
-<div class="project-name">
-Creative Projects
-</div>
-
-<div class="project-type">
-CREATE
+<div class="project-number">
+02
 </div>
 
 </div>
@@ -399,11 +270,11 @@ CREATE
 <div class="project">
 
 <div class="project-name">
-Random Ideas
+things I am currently learning
 </div>
 
-<div class="project-type">
-MISC
+<div class="project-number">
+03
 </div>
 
 </div>
@@ -412,31 +283,38 @@ MISC
 <div class="project">
 
 <div class="project-name">
-Coming Soon
+something cool eventually
 </div>
 
-<div class="project-type">
-??? 
+<div class="project-number">
+04
 </div>
 
 </div>
 
+
+</div>
+
 </div>
 
 
-<!-- FOOTER -->
+<div class="line"></div>
+
 
 <footer>
 
 <div>
-© 2026 MEOWMAD
+© 2026 Meowmad
 </div>
 
 <div>
-MADE ON THE INTERNET
+<span class="cat">:3</span>
 </div>
 
 </footer>
+
+
+</div>
 
 
 </body>
