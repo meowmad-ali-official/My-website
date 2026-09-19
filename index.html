@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Meowmad</title>
 
 <style>
@@ -12,39 +13,36 @@
     box-sizing: border-box;
 }
 
-html, body {
-    width: 100%;
-    height: 100%;
+html {
+    scroll-behavior: smooth;
 }
 
 body {
     background: #050505;
-    color: #ededed;
+    color: #f2f2f2;
     font-family: Arial, Helvetica, sans-serif;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
-/* MOUSE LIGHT */
-
+/* subtle mouse light */
 .mouse-light {
     position: fixed;
-    width: 430px;
-    height: 430px;
-    pointer-events: none;
+    width: 500px;
+    height: 500px;
     border-radius: 50%;
+    pointer-events: none;
     transform: translate(-50%, -50%);
     background: radial-gradient(
         circle,
-        rgba(255,255,255,0.055),
-        rgba(255,255,255,0.015) 35%,
+        rgba(255,255,255,0.055) 0%,
+        rgba(255,255,255,0.018) 35%,
         transparent 70%
     );
-    z-index: 20;
-    transition: left .12s ease-out, top .12s ease-out;
+    z-index: 0;
+    transition: left 0.12s ease-out, top 0.12s ease-out;
 }
 
-/* SUBTLE GRAIN */
-
+/* thin grain */
 body::after {
     content: "";
     position: fixed;
@@ -55,428 +53,401 @@ body::after {
     z-index: 10;
 }
 
-/* MAIN LAYOUT */
-
-.site {
-    height: 100vh;
-    display: grid;
-    grid-template-columns: 90px 1fr 260px;
-    position: relative;
-}
-
-/* LEFT RAIL */
-
-.left-rail {
-    border-right: 1px solid #1d1d1d;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 30px 0;
-    z-index: 5;
-}
-
-.mark {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    font-size: 10px;
-    letter-spacing: 4px;
-    color: #777;
-}
-
-.rail-number {
-    font-size: 9px;
-    color: #444;
-    letter-spacing: 2px;
-}
-
-.rail-middle {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    align-items: center;
-}
-
-.rail-line {
-    width: 1px;
-    height: 45px;
-    background: #333;
-}
-
-/* CENTER */
-
-.main {
-    position: relative;
-    overflow: hidden;
-}
-
-/* TOP BAR */
-
-.topbar {
-    position: absolute;
+/* navigation */
+nav {
+    position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    height: 85px;
-    border-bottom: 1px solid #1d1d1d;
+    width: 100%;
+    padding: 28px 38px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 45px;
-    z-index: 5;
+    z-index: 20;
+    mix-blend-mode: difference;
 }
 
-.topbar-left {
-    color: #555;
-    font-size: 9px;
+.logo {
+    font-size: 14px;
+    font-weight: bold;
     letter-spacing: 3px;
 }
 
-.topbar-right {
+.nav-right {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #777;
-    font-size: 9px;
-    letter-spacing: 2px;
+    gap: 28px;
 }
 
-.live-dot {
+.nav-right a {
+    color: white;
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 2px;
+    opacity: 0.65;
+    transition: 0.25s;
+}
+
+.nav-right a:hover {
+    opacity: 1;
+}
+
+/* hero */
+.hero {
+    height: 100vh;
+    min-height: 650px;
+    position: relative;
+    z-index: 1;
+    padding: 120px 6vw 50px;
+    display: flex;
+    align-items: center;
+}
+
+.hero-line {
+    position: absolute;
+    left: 6vw;
+    right: 6vw;
+    bottom: 50px;
+    height: 1px;
+    background: #242424;
+}
+
+.hero-content {
+    position: relative;
+}
+
+.overline {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-size: clamp(75px, 15vw, 220px);
+    line-height: 0.76;
+    letter-spacing: -12px;
+    font-weight: 700;
+}
+
+.hero h1 span {
+    display: block;
+    margin-left: 9vw;
+}
+
+.hero-meta {
+    position: absolute;
+    right: 0;
+    bottom: 2px;
+    width: 180px;
+}
+
+.hero-meta p {
+    color: #777;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.status {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #aaa;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.status-dot {
     width: 5px;
     height: 5px;
+    background: #ddd;
     border-radius: 50%;
-    background: #aaa;
 }
 
-/* CENTER CONTENT */
+/* about */
+.about {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    padding: 140px 6vw;
+    display: grid;
+    grid-template-columns: 25% 75%;
+    border-bottom: 1px solid #222;
+}
 
-.center {
-    height: 100%;
+.about-index {
+    color: #555;
+    font-size: 10px;
+    letter-spacing: 3px;
+}
+
+.about-main {
+    max-width: 850px;
+}
+
+.about-main h2 {
+    font-size: clamp(42px, 6vw, 85px);
+    line-height: 0.95;
+    letter-spacing: -5px;
+    font-weight: 500;
+    margin-bottom: 65px;
+}
+
+.about-main h2 span {
+    color: #555;
+}
+
+.about-text {
+    max-width: 530px;
+    margin-left: auto;
+    color: #777;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+/* orbit section */
+.explore {
+    position: relative;
+    min-height: 100vh;
+    padding: 120px 6vw;
+    z-index: 1;
+    border-bottom: 1px solid #222;
+}
+
+.explore-top {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    position: relative;
 }
 
-.center-content {
-    width: min(700px, 75%);
-    position: relative;
+.explore-top span {
+    color: #555;
+    font-size: 10px;
+    letter-spacing: 3px;
 }
 
-/* CIRCLE */
-
-.graphic {
-    width: 230px;
-    height: 230px;
-    border: 1px solid #242424;
+.orbit {
+    position: relative;
+    width: min(75vw, 750px);
+    height: min(75vw, 750px);
+    margin: 40px auto 0;
+    border: 1px solid #202020;
     border-radius: 50%;
-    position: absolute;
-    right: -30px;
-    top: -110px;
-    animation: float 8s ease-in-out infinite;
 }
 
-.graphic::before {
+.orbit::before {
     content: "";
     position: absolute;
-    inset: 28px;
+    width: 68%;
+    height: 68%;
+    left: 16%;
+    top: 16%;
     border: 1px solid #181818;
     border-radius: 50%;
 }
 
-.graphic::after {
-    content: "";
+.orbit-center {
     position: absolute;
-    width: 5px;
-    height: 5px;
-    background: #aaa;
-    border-radius: 50%;
+    left: 50%;
     top: 50%;
-    left: -3px;
+    transform: translate(-50%, -50%);
+    text-align: center;
 }
 
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0) rotate(0deg);
-    }
-
-    50% {
-        transform: translateY(-12px) rotate(8deg);
-    }
-}
-
-/* TEXT */
-
-.kicker {
-    color: #555;
-    font-size: 9px;
+.orbit-center h3 {
+    font-size: 13px;
     letter-spacing: 4px;
-    margin-bottom: 25px;
 }
 
-.name {
-    font-size: clamp(65px, 9vw, 145px);
-    line-height: 0.8;
-    letter-spacing: -9px;
-    font-weight: 700;
-    white-space: nowrap;
+.orbit-center p {
+    margin-top: 10px;
+    color: #555;
+    font-size: 9px;
+    letter-spacing: 2px;
 }
 
-.description {
-    width: 310px;
-    margin-top: 55px;
-    margin-left: 10px;
-    color: #666;
-    font-size: 12px;
-    line-height: 1.8;
-}
-
-/* BOTTOM */
-
-.center-bottom {
+.orbit-item {
     position: absolute;
-    bottom: 35px;
-    left: 45px;
-    right: 45px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.coords {
-    color: #444;
-    font-size: 9px;
+    color: #888;
+    font-size: 11px;
     letter-spacing: 2px;
+    transition: 0.3s;
 }
 
-.scroll-hint {
-    color: #555;
-    font-size: 9px;
-    letter-spacing: 2px;
-}
-
-/* RIGHT PANEL */
-
-.right-panel {
-    border-left: 1px solid #1d1d1d;
-    display: flex;
-    flex-direction: column;
-    z-index: 5;
-}
-
-.panel-head {
-    height: 85px;
-    border-bottom: 1px solid #1d1d1d;
-    display: flex;
-    align-items: center;
-    padding: 0 25px;
-    color: #555;
-    font-size: 9px;
-    letter-spacing: 3px;
-}
-
-.panel-content {
-    padding: 30px 25px;
-    flex: 1;
-}
-
-.panel-item {
-    padding: 20px 0;
-    border-bottom: 1px solid #1d1d1d;
-    cursor: pointer;
-    transition: .25s;
-}
-
-.panel-item:hover {
-    padding-left: 8px;
-}
-
-.panel-label {
-    color: #444;
-    font-size: 8px;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-}
-
-.panel-value {
-    color: #aaa;
-    font-size: 12px;
-}
-
-.panel-item:hover .panel-value {
+.orbit-item:hover {
     color: white;
+    transform: scale(1.1);
 }
 
-/* CONTACT BUTTON */
-
-.contact-button {
-    margin-top: 35px;
-    width: 100%;
-    padding: 17px;
-    background: transparent;
-    border: 1px solid #333;
-    color: #aaa;
-    font-size: 9px;
-    letter-spacing: 3px;
-    cursor: pointer;
-    transition: .3s;
+.item-one {
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-.contact-button:hover {
-    background: #ededed;
-    color: #050505;
+.item-two {
+    right: 5%;
+    top: 50%;
 }
 
-/* CONTACT SCREEN */
-
-.contact-screen {
-    position: fixed;
-    inset: 0;
-    background: #050505;
-    z-index: 30;
-    transform: translateY(100%);
-    transition: transform .55s cubic-bezier(.77,0,.18,1);
-    padding: 50px;
+.item-three {
+    bottom: 9%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-.contact-screen.open {
-    transform: translateY(0);
+.item-four {
+    left: 5%;
+    top: 50%;
 }
 
-.close {
-    position: absolute;
-    top: 35px;
-    right: 45px;
-    color: #777;
+/* contact */
+.contact {
+    position: relative;
+    z-index: 1;
+    min-height: 85vh;
+    padding: 150px 6vw 80px;
+}
+
+.contact-small {
+    color: #555;
     font-size: 10px;
     letter-spacing: 3px;
-    cursor: pointer;
+    margin-bottom: 55px;
 }
 
-.contact-inner {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 900px;
-    margin: auto;
+.contact h2 {
+    font-size: clamp(70px, 13vw, 190px);
+    letter-spacing: -10px;
+    line-height: 0.75;
+    margin-bottom: 100px;
 }
 
-.contact-label {
-    color: #555;
-    font-size: 9px;
-    letter-spacing: 4px;
-    margin-bottom: 35px;
-}
-
-.contact-title {
-    font-size: clamp(60px, 10vw, 150px);
-    letter-spacing: -9px;
-    line-height: .8;
-    margin-bottom: 90px;
-}
-
-.contact-title span {
+.contact h2 span {
     color: #444;
+}
+
+.emails {
+    border-top: 1px solid #292929;
+    max-width: 850px;
 }
 
 .email {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 22px 0;
-    border-bottom: 1px solid #222;
+    padding: 24px 0;
+    border-bottom: 1px solid #292929;
     text-decoration: none;
-    color: #888;
+    color: #aaa;
     font-size: 13px;
-    transition: .25s;
-}
-
-.email:first-of-type {
-    border-top: 1px solid #222;
+    transition: 0.3s;
 }
 
 .email:hover {
     color: white;
-    padding-left: 10px;
+    padding-left: 12px;
 }
 
-.arrow {
+.email-arrow {
+    color: #555;
+    font-size: 18px;
+}
+
+/* footer */
+footer {
+    position: relative;
+    z-index: 1;
+    padding: 25px 6vw;
+    border-top: 1px solid #222;
+    display: flex;
+    justify-content: space-between;
     color: #444;
+    font-size: 9px;
+    letter-spacing: 2px;
 }
 
-/* MOBILE */
+/* mobile */
+@media (max-width: 700px) {
 
-@media (max-width: 800px) {
-
-    body {
-        overflow: auto;
+    nav {
+        padding: 22px;
     }
 
-    .site {
-        min-height: 100vh;
-        height: auto;
-        display: block;
+    .nav-right {
+        gap: 14px;
     }
 
-    .left-rail {
-        display: none;
+    .hero {
+        padding: 100px 22px 40px;
     }
 
-    .right-panel {
-        display: none;
+    .hero-line {
+        left: 22px;
+        right: 22px;
+        bottom: 40px;
     }
 
-    .main {
-        min-height: 100vh;
-    }
-
-    .topbar {
-        height: 70px;
-        padding: 0 22px;
-    }
-
-    .center {
-        min-height: 100vh;
-        padding: 100px 22px;
-    }
-
-    .center-content {
-        width: 100%;
-    }
-
-    .name {
-        font-size: 19vw;
+    .hero h1 {
+        font-size: 21vw;
         letter-spacing: -6px;
     }
 
-    .description {
-        margin-left: 5px;
-        width: 260px;
+    .hero h1 span {
+        margin-left: 10vw;
     }
 
-    .graphic {
-        width: 150px;
-        height: 150px;
-        right: 0;
-        top: -70px;
+    .hero-meta {
+        position: static;
+        margin-top: 70px;
     }
 
-    .center-bottom {
-        left: 22px;
-        right: 22px;
+    .about {
+        display: block;
+        padding: 100px 22px;
     }
 
-    .contact-screen {
-        padding: 25px;
+    .about-index {
+        margin-bottom: 50px;
     }
 
-    .contact-title {
+    .about-main h2 {
+        letter-spacing: -3px;
+    }
+
+    .about-text {
+        margin-top: 50px;
+        margin-left: 0;
+    }
+
+    .explore {
+        padding: 100px 22px;
+    }
+
+    .orbit {
+        width: 88vw;
+        height: 88vw;
+    }
+
+    .orbit-item {
+        font-size: 9px;
+    }
+
+    .contact {
+        padding: 110px 22px 70px;
+    }
+
+    .contact h2 {
         letter-spacing: -5px;
+        margin-bottom: 70px;
     }
 
     .email {
-        font-size: 10px;
+        font-size: 11px;
+    }
+
+    footer {
+        padding: 22px;
     }
 }
 </style>
@@ -486,153 +457,131 @@ body::after {
 
 <div class="mouse-light"></div>
 
-<div class="site">
+<nav>
+    <div class="logo">MEOWMAD</div>
 
-    <!-- LEFT RAIL -->
+    <div class="nav-right">
+        <a href="#about">ABOUT</a>
+        <a href="#explore">EXPLORE</a>
+        <a href="#contact">CONTACT</a>
+    </div>
+</nav>
 
-    <aside class="left-rail">
 
-        <div class="mark">
-            MEOWMAD
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="overline">
+            PERSONAL SPACE / 001
         </div>
 
-        <div class="rail-middle">
-            <div class="rail-line"></div>
-            <div class="rail-number">01</div>
-            <div class="rail-line"></div>
-        </div>
+        <h1>
+            MEOW
+            <span>MAD.</span>
+        </h1>
 
-        <div class="rail-number">
-            2026
-        </div>
+        <div class="hero-meta">
 
-    </aside>
+            <p>
+                Muhammad Khalid
+                <br>
+                California
+            </p>
 
-
-    <!-- CENTER -->
-
-    <main class="main">
-
-        <div class="topbar">
-
-            <div class="topbar-left">
-                PERSONAL INTERFACE
-            </div>
-
-            <div class="topbar-right">
-                <div class="live-dot"></div>
-                ACTIVE
-            </div>
-
-        </div>
-
-
-        <div class="center">
-
-            <div class="center-content">
-
-                <div class="graphic"></div>
-
-                <div class="kicker">
-                    MUHAMMAD KHALID
-                </div>
-
-                <div class="name">
-                    MEOWMAD.
-                </div>
-
-                <p class="description">
-                    Technology, design, ideas,
-                    experiments and everything
-                    in between.
-                </p>
-
-            </div>
-
-
-            <div class="center-bottom">
-
-                <div class="coords">
-                    38.57° N / 121.37° W
-                </div>
-
-                <div class="scroll-hint">
-                    MOVE / EXPLORE
-                </div>
-
+            <div class="status">
+                <div class="status-dot"></div>
+                ONLINE
             </div>
 
         </div>
 
-    </main>
-
-
-    <!-- RIGHT SIDE -->
-
-    <aside class="right-panel">
-
-        <div class="panel-head">
-            INDEX
-        </div>
-
-        <div class="panel-content">
-
-            <div class="panel-item">
-                <div class="panel-label">01</div>
-                <div class="panel-value">About</div>
-            </div>
-
-            <div class="panel-item">
-                <div class="panel-label">02</div>
-                <div class="panel-value">Technology</div>
-            </div>
-
-            <div class="panel-item">
-                <div class="panel-label">03</div>
-                <div class="panel-value">Design</div>
-            </div>
-
-            <div class="panel-item">
-                <div class="panel-label">04</div>
-                <div class="panel-value">Ideas</div>
-            </div>
-
-            <button class="contact-button" onclick="openContact()">
-                CONTACT ME
-            </button>
-
-        </div>
-
-    </aside>
-
-</div>
-
-
-<!-- CONTACT SCREEN -->
-
-<div class="contact-screen" id="contact">
-
-    <div class="close" onclick="closeContact()">
-        CLOSE ×
     </div>
 
-    <div class="contact-inner">
+    <div class="hero-line"></div>
 
-        <div class="contact-label">
-            CONTACT / 04
+</section>
+
+
+<section class="about" id="about">
+
+    <div class="about-index">
+        01 — ABOUT
+    </div>
+
+    <div class="about-main">
+
+        <h2>
+            A personal space
+            <span>without much noise.</span>
+        </h2>
+
+        <div class="about-text">
+            This is my corner of the internet.
+            A place for ideas, technology, design,
+            projects, and whatever happens to
+            interest me.
         </div>
 
-        <div class="contact-title">
-            Contact
-            <span>me.</span>
+    </div>
+
+</section>
+
+
+<section class="explore" id="explore">
+
+    <div class="explore-top">
+        <span>02 — INTERESTS</span>
+        <span>SELECT / EXPLORE</span>
+    </div>
+
+    <div class="orbit">
+
+        <div class="orbit-center">
+            <h3>MEOWMAD</h3>
+            <p>INTERESTS</p>
         </div>
+
+        <div class="orbit-item item-one">
+            TECHNOLOGY
+        </div>
+
+        <div class="orbit-item item-two">
+            DESIGN
+        </div>
+
+        <div class="orbit-item item-three">
+            BUILDING
+        </div>
+
+        <div class="orbit-item item-four">
+            IDEAS
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="contact" id="contact">
+
+    <div class="contact-small">
+        03 — CONTACT
+    </div>
+
+    <h2>
+        Contact
+        <span>me.</span>
+    </h2>
+
+    <div class="emails">
 
         <a
             class="email"
             href="mailto:muhammad.khalid@student.rjuhsd.com"
         >
             <span>muhammad.khalid@student.rjuhsd.com</span>
-            <span class="arrow">↗</span>
+            <span class="email-arrow">↗</span>
         </a>
 
         <a
@@ -640,37 +589,30 @@ body::after {
             href="mailto:khalid791abduallah@gmail.com"
         >
             <span>khalid791abduallah@gmail.com</span>
-            <span class="arrow">↗</span>
+            <span class="email-arrow">↗</span>
         </a>
 
     </div>
 
-</div>
+</section>
+
+
+<footer>
+    <span>MEOWMAD</span>
+    <span>2026</span>
+</footer>
 
 
 <script>
 
-/* MOUSE LIGHT */
-
 const light = document.querySelector(".mouse-light");
 
-document.addEventListener("mousemove", function(event) {
+document.addEventListener("mousemove", function(e) {
 
-    light.style.left = event.clientX + "px";
-    light.style.top = event.clientY + "px";
+    light.style.left = e.clientX + "px";
+    light.style.top = e.clientY + "px";
 
 });
-
-
-/* CONTACT PANEL */
-
-function openContact() {
-    document.getElementById("contact").classList.add("open");
-}
-
-function closeContact() {
-    document.getElementById("contact").classList.remove("open");
-}
 
 </script>
 
