@@ -17,355 +17,470 @@ html {
 
 body {
     margin: 0;
-    background: #f7f7f5;
-    color: #111;
+    background: #0b0b0b;
+    color: #f5f5f5;
     font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+/* subtle moving background */
+
+body:before {
+    content: "";
+    position: fixed;
+
+    width: 500px;
+    height: 500px;
+
+    left: var(--mouse-x, 50%);
+    top: var(--mouse-y, 50%);
+
+    transform: translate(-50%, -50%);
+
+    background: white;
+
+    opacity: 0.035;
+
+    filter: blur(100px);
+
+    pointer-events: none;
+
+    transition: left 0.4s ease, top 0.4s ease;
+
+    z-index: -1;
 }
 
 
-/* LAYOUT */
-
-.page {
-    width: 90%;
-    max-width: 1250px;
-    margin: auto;
-}
-
-
-/* NAVIGATION */
+/* NAV */
 
 nav {
-    height: 85px;
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    padding: 22px 35px;
 
     display: flex;
-    align-items: center;
-    justify-content: space-between;
 
-    border-bottom: 1px solid #111;
+    justify-content: space-between;
+    align-items: center;
+
+    z-index: 10;
+
+    background: rgba(11,11,11,0.7);
+
+    backdrop-filter: blur(15px);
 }
 
 .logo {
     font-size: 13px;
+
+    letter-spacing: 4px;
+
     font-weight: bold;
-    letter-spacing: 3px;
 }
 
 .nav-links {
     display: flex;
-    gap: 28px;
+
+    gap: 25px;
 }
 
 .nav-links a {
-    color: #111;
+    color: #888;
+
     text-decoration: none;
+
     font-size: 11px;
-    letter-spacing: 1.5px;
+
+    transition: 0.3s;
 }
 
 .nav-links a:hover {
-    opacity: 0.45;
+    color: white;
 }
 
 
 /* HERO */
 
 .hero {
-    min-height: 78vh;
+    min-height: 100vh;
+
+    padding: 140px 8% 80px;
 
     display: flex;
+
     flex-direction: column;
+
     justify-content: center;
 
-    padding: 80px 0;
+    position: relative;
 }
 
-.eyebrow {
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: #777;
-    margin-bottom: 28px;
-}
-
-h1 {
-    font-size: clamp(60px, 10vw, 145px);
-    font-weight: 500;
-    letter-spacing: -8px;
-    line-height: 0.84;
-
-    margin: 0;
-
-    max-width: 1100px;
-}
-
-h1 span {
-    color: #888;
-}
-
-.hero-info {
-    margin-top: 55px;
-
+.status {
     display: flex;
-    justify-content: space-between;
-    align-items: end;
-}
-
-.description {
-    width: 390px;
-
-    color: #555;
-
-    font-size: 14px;
-    line-height: 1.7;
-}
-
-.year {
-    font-size: 11px;
-    color: #777;
-}
-
-
-/* SECTIONS */
-
-.section {
-    padding: 120px 0;
-}
-
-.section-top {
-    display: flex;
-    justify-content: space-between;
-
-    margin-bottom: 70px;
-}
-
-.section-number {
-    font-size: 10px;
-    color: #777;
-    letter-spacing: 2px;
-}
-
-.section-label {
-    font-size: 10px;
-    color: #777;
-    letter-spacing: 2px;
-}
-
-
-/* ABOUT */
-
-.about-text {
-    max-width: 850px;
-
-    font-size: 32px;
-    line-height: 1.35;
-
-    letter-spacing: -1px;
-}
-
-
-/* WORK */
-
-.work-list {
-    border-top: 1px solid #111;
-}
-
-.work {
-    min-height: 100px;
-
-    display: grid;
-
-    grid-template-columns: 70px 1fr 180px 30px;
 
     align-items: center;
 
-    border-bottom: 1px solid #ccc;
+    gap: 9px;
 
-    transition: 0.25s;
-}
-
-.work:hover {
-    padding-left: 15px;
-}
-
-.work-number {
-    font-size: 10px;
-    color: #999;
-}
-
-.work-name {
-    font-size: 17px;
-}
-
-.work-category {
-    font-size: 10px;
-    letter-spacing: 1.5px;
     color: #777;
-}
 
-.arrow {
-    font-size: 15px;
-    color: #777;
-}
-
-
-/* DETAILS */
-
-.details {
-    display: grid;
-
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 40px;
-}
-
-.detail {
-    border-top: 1px solid #111;
-
-    padding-top: 20px;
-}
-
-.detail-title {
     font-size: 10px;
-    color: #777;
+
     letter-spacing: 2px;
 
-    margin-bottom: 18px;
+    margin-bottom: 35px;
 }
 
-.detail-text {
+.dot {
+    width: 6px;
+    height: 6px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.2;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+
+
+.hero h1 {
+    margin: 0;
+
+    font-size: clamp(55px, 10vw, 130px);
+
+    font-weight: 500;
+
+    letter-spacing: -7px;
+
+    line-height: 0.9;
+
+    max-width: 1000px;
+}
+
+.hero h1 span {
+    color: #555;
+}
+
+.hero-text {
+    margin-top: 45px;
+
+    max-width: 420px;
+
+    color: #777;
+
     font-size: 14px;
+
+    line-height: 1.7;
+}
+
+.enter {
+    margin-top: 40px;
+
+    width: fit-content;
+
+    padding: 14px 20px;
+
+    border: 1px solid #444;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    transition: 0.3s;
+}
+
+.enter:hover {
+    background: white;
+
+    color: black;
+
+    border-color: white;
+}
+
+
+/* FLOATING INFO */
+
+.corner {
+    position: absolute;
+
+    right: 8%;
+
+    bottom: 60px;
+
+    color: #444;
+
+    font-size: 10px;
+
+    text-align: right;
+
+    line-height: 1.8;
+}
+
+
+/* SECTION */
+
+section {
+    padding: 120px 8%;
+}
+
+.section-heading {
+    color: #555;
+
+    font-size: 10px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 50px;
+}
+
+
+/* CARDS */
+
+.grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+}
+
+.card {
+    min-height: 260px;
+
+    padding: 25px;
+
+    border: 1px solid #222;
+
+    background: #0e0e0e;
+
+    position: relative;
+
+    overflow: hidden;
+
+    transition: 0.4s;
+}
+
+.card:hover {
+    border-color: #555;
+
+    transform: translateY(-6px);
+}
+
+.card-number {
+    color: #444;
+
+    font-size: 10px;
+
+    position: absolute;
+
+    top: 22px;
+
+    right: 22px;
+}
+
+.card-icon {
+    font-size: 25px;
+
+    margin-bottom: 80px;
+}
+
+.card h3 {
+    font-size: 19px;
+
+    font-weight: normal;
+
+    margin-bottom: 12px;
+}
+
+.card p {
+    color: #666;
+
+    font-size: 12px;
+
     line-height: 1.6;
+}
+
+
+/* FEATURE */
+
+.feature {
+    border-top: 1px solid #222;
+
+    border-bottom: 1px solid #222;
+
+    padding: 80px 0;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+.feature h2 {
+    font-size: clamp(35px, 5vw, 65px);
+
+    font-weight: normal;
+
+    letter-spacing: -3px;
+
+    margin: 0;
+}
+
+.feature p {
+    width: 300px;
+
+    color: #666;
+
+    font-size: 13px;
+
+    line-height: 1.7;
 }
 
 
 /* CONTACT */
 
 .contact {
-    min-height: 55vh;
+    min-height: 70vh;
 
     display: flex;
+
     flex-direction: column;
+
     justify-content: center;
 }
 
-.contact-title {
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: #777;
+.contact small {
+    color: #555;
 
-    margin-bottom: 30px;
+    letter-spacing: 3px;
+
+    font-size: 10px;
 }
 
 .contact h2 {
-    margin: 0;
+    font-size: clamp(50px, 9vw, 110px);
 
-    font-size: clamp(45px, 7vw, 90px);
+    font-weight: normal;
 
-    font-weight: 500;
+    letter-spacing: -6px;
 
-    letter-spacing: -5px;
+    margin: 25px 0;
 }
 
-.contact a {
-    display: inline-block;
-
-    margin-top: 40px;
-
-    color: #111;
-
-    font-size: 13px;
+.email {
+    color: white;
 
     text-decoration: none;
 
-    border-bottom: 1px solid #111;
+    font-size: 13px;
 
-    padding-bottom: 6px;
+    border-bottom: 1px solid #555;
+
+    width: fit-content;
+
+    padding-bottom: 7px;
 }
 
-.contact a:hover {
-    opacity: 0.5;
+.email:hover {
+    border-color: white;
 }
 
 
 /* FOOTER */
 
 footer {
-    height: 90px;
+    padding: 25px 8%;
 
-    border-top: 1px solid #111;
+    border-top: 1px solid #222;
 
     display: flex;
-    align-items: center;
+
     justify-content: space-between;
+
+    color: #444;
 
     font-size: 9px;
 
     letter-spacing: 2px;
-
-    color: #777;
 }
 
 
 /* MOBILE */
 
-@media (max-width: 700px) {
-
-    .page {
-        width: 88%;
-    }
+@media (max-width: 750px) {
 
     nav {
-        height: 70px;
+        padding: 20px;
     }
 
-    .nav-links {
-        gap: 15px;
+    .hero {
+        padding-left: 7%;
+        padding-right: 7%;
     }
 
-    .nav-links a {
-        font-size: 9px;
-    }
+    .hero h1 {
+        font-size: 60px;
 
-    h1 {
-        font-size: 58px;
         letter-spacing: -4px;
     }
 
-    .hero-info {
-        display: block;
-    }
-
-    .description {
-        width: 100%;
-    }
-
-    .year {
-        margin-top: 25px;
-    }
-
-    .section {
-        padding: 85px 0;
-    }
-
-    .about-text {
-        font-size: 24px;
-    }
-
-    .work {
-        grid-template-columns: 40px 1fr 25px;
-    }
-
-    .work-category {
+    .corner {
         display: none;
     }
 
-    .details {
+    section {
+        padding: 90px 7%;
+    }
+
+    .grid {
         grid-template-columns: 1fr;
-        gap: 50px;
+    }
+
+    .card {
+        min-height: 220px;
+    }
+
+    .feature {
+        display: block;
+    }
+
+    .feature p {
+        width: 100%;
+
+        margin-top: 30px;
     }
 
     .contact h2 {
-        font-size: 48px;
-        letter-spacing: -3px;
+        font-size: 55px;
+
+        letter-spacing: -4px;
     }
 
 }
@@ -378,9 +493,6 @@ footer {
 <body>
 
 
-<div class="page">
-
-
 <nav>
 
 <div class="logo">
@@ -389,9 +501,9 @@ MEOWMAD
 
 <div class="nav-links">
 
-<a href="#about">ABOUT</a>
+<a href="#home">HOME</a>
 
-<a href="#work">WORK</a>
+<a href="#explore">EXPLORE</a>
 
 <a href="#contact">CONTACT</a>
 
@@ -400,162 +512,134 @@ MEOWMAD
 </nav>
 
 
-<section class="hero">
+<!-- HERO -->
 
-<div class="eyebrow">
-PERSONAL / DIGITAL / 2026
+<div class="hero" id="home">
+
+<div class="status">
+
+<div class="dot"></div>
+
+ONLINE / 2026
+
 </div>
+
 
 <h1>
+
 Welcome to
+
 <span>Meowmad's website.</span>
+
 </h1>
 
-<div class="hero-info">
 
-<div class="description">
-A personal space for projects, experiments,
-ideas, and whatever happens to be worth making.
-</div>
+<div class="hero-text">
 
-<div class="year">
-EST. 2026
-</div>
+Not really a portfolio.
+Not really a blog.
+
+Just a small place on the internet
+where things happen.
 
 </div>
 
-</section>
+
+<a class="enter" href="#explore">
+
+EXPLORE ↓
+
+</a>
 
 
-<div style="border-top: 1px solid #111;"></div>
+<div class="corner">
+
+CURRENT TIME<br>
+
+<span id="clock">00:00:00</span>
+
+</div>
+
+</div>
 
 
-<section class="section" id="about">
 
-<div class="section-top">
+<!-- EXPLORE -->
 
-<div class="section-number">
+<section id="explore">
+
+<div class="section-heading">
+
+01 / EXPLORE
+
+</div>
+
+
+<div class="grid">
+
+
+<div class="card">
+
+<div class="card-number">
 01
 </div>
 
-<div class="section-label">
-ABOUT
+<div class="card-icon">
+/
 </div>
 
+<h3>
+Ideas
+</h3>
+
+<p>
+Things that started as thoughts
+and may eventually become something.
+</p>
+
 </div>
 
-<div class="about-text">
 
-I make things on the internet.
-Some are useful, some are unnecessary,
-and some are still being figured out.
+<div class="card">
 
-</div>
-
-</section>
-
-
-<div style="border-top: 1px solid #111;"></div>
-
-
-<section class="section" id="work">
-
-<div class="section-top">
-
-<div class="section-number">
+<div class="card-number">
 02
 </div>
 
-<div class="section-label">
-SELECTED
+<div class="card-icon">
++
 </div>
 
-</div>
+<h3>
+Projects
+</h3>
 
-
-<div class="work-list">
-
-
-<div class="work">
-
-<div class="work-number">
-01
-</div>
-
-<div class="work-name">
-Personal Website
-</div>
-
-<div class="work-category">
-WEB DESIGN
-</div>
-
-<div class="arrow">
-→
-</div>
+<p>
+Small experiments, websites,
+and things currently being built.
+</p>
 
 </div>
 
 
-<div class="work">
+<div class="card">
 
-<div class="work-number">
-02
-</div>
-
-<div class="work-name">
-Experiments
-</div>
-
-<div class="work-category">
-DIGITAL
-</div>
-
-<div class="arrow">
-→
-</div>
-
-</div>
-
-
-<div class="work">
-
-<div class="work-number">
+<div class="card-number">
 03
 </div>
 
-<div class="work-name">
-Things In Progress
+<div class="card-icon">
+*
 </div>
 
-<div class="work-category">
-ONGOING
-</div>
+<h3>
+Interests
+</h3>
 
-<div class="arrow">
-→
-</div>
-
-</div>
-
-
-<div class="work">
-
-<div class="work-number">
-04
-</div>
-
-<div class="work-name">
-Future Projects
-</div>
-
-<div class="work-category">
-UNKNOWN
-</div>
-
-<div class="arrow">
-→
-</div>
+<p>
+Technology, design, games,
+and whatever catches my attention.
+</p>
 
 </div>
 
@@ -565,90 +649,60 @@ UNKNOWN
 </section>
 
 
-<div style="border-top: 1px solid #111;"></div>
 
+<!-- FEATURE -->
 
-<section class="section">
+<section>
 
-<div class="section-top">
+<div class="feature">
 
-<div class="section-number">
-03
-</div>
+<div>
 
-<div class="section-label">
-DETAILS
-</div>
-
-</div>
-
-
-<div class="details">
-
-
-<div class="detail">
-
-<div class="detail-title">
-CURRENTLY
-</div>
-
-<div class="detail-text">
-Learning, building, experimenting.
-</div>
-
-</div>
-
-
-<div class="detail">
-
-<div class="detail-title">
-INTERESTS
-</div>
-
-<div class="detail-text">
-Design, technology, games, the internet.
-</div>
-
-</div>
-
-
-<div class="detail">
-
-<div class="detail-title">
-STATUS
-</div>
-
-<div class="detail-text">
-Still making things.
-</div>
-
-</div>
-
-
-</div>
-
-</section>
-
-
-<div style="border-top: 1px solid #111;"></div>
-
-
-<section class="contact" id="contact">
-
-<div class="contact-title">
-04 / CONTACT
+<div class="section-heading">
+02 / CURRENTLY
 </div>
 
 <h2>
-Let's make<br>
-something.
+Making things.
 </h2>
 
-<a href="mailto:hello@example.com">
+</div>
+
+
+<p>
+
+This website is always changing.
+Maybe the next version will look
+completely different.
+
+</p>
+
+</div>
+
+</section>
+
+
+
+<!-- CONTACT -->
+
+<section class="contact" id="contact">
+
+<small>
+03 / CONTACT
+</small>
+
+<h2>
+Say hello.
+</h2>
+
+<a class="email" href="mailto:hello@example.com">
+
 hello@example.com →
+
 </a>
 
 </section>
+
 
 
 <footer>
@@ -664,7 +718,48 @@ MEOWMAD
 </footer>
 
 
-</div>
+
+<script>
+
+/* LIVE CLOCK */
+
+function updateClock() {
+
+    let now = new Date();
+
+    let hours = String(now.getHours()).padStart(2, "0");
+
+    let minutes = String(now.getMinutes()).padStart(2, "0");
+
+    let seconds = String(now.getSeconds()).padStart(2, "0");
+
+    document.getElementById("clock").textContent =
+        hours + ":" + minutes + ":" + seconds;
+
+}
+
+updateClock();
+
+setInterval(updateClock, 1000);
+
+
+/* MOUSE LIGHT */
+
+document.addEventListener("mousemove", function(event) {
+
+    document.body.style.setProperty(
+        "--mouse-x",
+        event.clientX + "px"
+    );
+
+    document.body.style.setProperty(
+        "--mouse-y",
+        event.clientY + "px"
+    );
+
+});
+
+</script>
 
 
 </body>
