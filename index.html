@@ -122,16 +122,13 @@ nav {
     margin-bottom: 30px;
 }
 
+/* MEOWMAD title */
 .hero h1 {
     font-size: clamp(75px, 15vw, 220px);
     line-height: 0.76;
     letter-spacing: -12px;
     font-weight: 700;
-}
-
-.hero h1 span {
-    display: block;
-    margin-left: 9vw;
+    white-space: nowrap;
 }
 
 .hero-meta {
@@ -145,23 +142,6 @@ nav {
     color: #777;
     font-size: 11px;
     line-height: 1.7;
-}
-
-.status {
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #aaa;
-    font-size: 10px;
-    letter-spacing: 1px;
-}
-
-.status-dot {
-    width: 5px;
-    height: 5px;
-    background: #ddd;
-    border-radius: 50%;
 }
 
 /* about */
@@ -389,12 +369,9 @@ footer {
     }
 
     .hero h1 {
-        font-size: 21vw;
-        letter-spacing: -6px;
-    }
-
-    .hero h1 span {
-        margin-left: 10vw;
+        font-size: 18vw;
+        letter-spacing: -5px;
+        white-space: nowrap;
     }
 
     .hero-meta {
@@ -458,13 +435,17 @@ footer {
 <div class="mouse-light"></div>
 
 <nav>
-    <div class="logo">MEOWMAD</div>
+
+    <div class="logo">
+        MEOWMAD
+    </div>
 
     <div class="nav-right">
         <a href="#about">ABOUT</a>
         <a href="#explore">EXPLORE</a>
         <a href="#contact">CONTACT</a>
     </div>
+
 </nav>
 
 
@@ -476,23 +457,13 @@ footer {
             PERSONAL SPACE / 001
         </div>
 
-        <h1>
-            MEOW
-            <span>MAD.</span>
-        </h1>
+        <h1>MEOWMAD.</h1>
 
         <div class="hero-meta">
 
             <p>
-                Muhammad Khalid
-                <br>
                 California
             </p>
-
-            <div class="status">
-                <div class="status-dot"></div>
-                ONLINE
-            </div>
 
         </div>
 
