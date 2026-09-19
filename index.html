@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Meowmad</title>
 
 <style>
@@ -13,441 +12,465 @@
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
+html, body {
+    width: 100%;
+    height: 100%;
 }
 
 body {
     background: #050505;
-    color: #f2f2f2;
+    color: #ededed;
     font-family: Arial, Helvetica, sans-serif;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
-/* subtle mouse light */
+/* MOUSE LIGHT */
+
 .mouse-light {
     position: fixed;
-    width: 500px;
-    height: 500px;
-    border-radius: 50%;
+    width: 430px;
+    height: 430px;
     pointer-events: none;
+    border-radius: 50%;
     transform: translate(-50%, -50%);
     background: radial-gradient(
         circle,
-        rgba(255,255,255,0.055) 0%,
-        rgba(255,255,255,0.018) 35%,
+        rgba(255,255,255,0.055),
+        rgba(255,255,255,0.015) 35%,
         transparent 70%
     );
-    z-index: 0;
-    transition: left 0.12s ease-out, top 0.12s ease-out;
+    z-index: 20;
+    transition: left .12s ease-out, top .12s ease-out;
 }
 
-/* thin grain */
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.035;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
-    z-index: 10;
+/* LAYOUT */
+
+.site {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 90px 1fr 260px;
+    position: relative;
 }
 
-/* navigation */
-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 28px 38px;
+/* LEFT RAIL */
+
+.left-rail {
+    border-right: 1px solid #1d1d1d;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    z-index: 20;
-    mix-blend-mode: difference;
+    padding: 30px 0;
+    z-index: 5;
 }
 
-.logo {
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: 3px;
-}
-
-.nav-right {
-    display: flex;
-    gap: 28px;
-}
-
-.nav-right a {
-    color: white;
-    text-decoration: none;
-    font-size: 10px;
-    letter-spacing: 2px;
-    opacity: 0.65;
-    transition: 0.25s;
-}
-
-.nav-right a:hover {
-    opacity: 1;
-}
-
-/* hero */
-.hero {
-    height: 100vh;
-    min-height: 650px;
-    position: relative;
-    z-index: 1;
-    padding: 120px 6vw 50px;
-    display: flex;
-    align-items: center;
-}
-
-.hero-line {
-    position: absolute;
-    left: 6vw;
-    right: 6vw;
-    bottom: 50px;
-    height: 1px;
-    background: #242424;
-}
-
-.hero-content {
-    position: relative;
-}
-
-.overline {
+.mark {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
     font-size: 10px;
     letter-spacing: 4px;
     color: #777;
-    margin-bottom: 30px;
 }
 
-.hero h1 {
-    font-size: clamp(75px, 15vw, 220px);
-    line-height: 0.76;
-    letter-spacing: -12px;
-    font-weight: 700;
+.rail-number {
+    font-size: 9px;
+    color: #444;
+    letter-spacing: 2px;
 }
 
-.hero h1 span {
-    display: block;
-    margin-left: 9vw;
-}
-
-.hero-meta {
-    position: absolute;
-    right: 0;
-    bottom: 2px;
-    width: 180px;
-}
-
-.hero-meta p {
-    color: #777;
-    font-size: 11px;
-    line-height: 1.7;
-}
-
-.status {
-    margin-top: 20px;
+.rail-middle {
     display: flex;
+    flex-direction: column;
+    gap: 18px;
     align-items: center;
-    gap: 8px;
-    color: #aaa;
-    font-size: 10px;
-    letter-spacing: 1px;
 }
 
-.status-dot {
-    width: 5px;
-    height: 5px;
-    background: #ddd;
-    border-radius: 50%;
+.rail-line {
+    width: 1px;
+    height: 45px;
+    background: #333;
 }
 
-/* about */
-.about {
+/* MAIN */
+
+.main {
     position: relative;
-    z-index: 1;
-    min-height: 100vh;
-    padding: 140px 6vw;
-    display: grid;
-    grid-template-columns: 25% 75%;
-    border-bottom: 1px solid #222;
+    overflow: hidden;
 }
 
-.about-index {
-    color: #555;
-    font-size: 10px;
-    letter-spacing: 3px;
-}
+/* TOP BAR */
 
-.about-main {
-    max-width: 850px;
-}
-
-.about-main h2 {
-    font-size: clamp(42px, 6vw, 85px);
-    line-height: 0.95;
-    letter-spacing: -5px;
-    font-weight: 500;
-    margin-bottom: 65px;
-}
-
-.about-main h2 span {
-    color: #555;
-}
-
-.about-text {
-    max-width: 530px;
-    margin-left: auto;
-    color: #777;
-    font-size: 15px;
-    line-height: 1.8;
-}
-
-/* orbit section */
-.explore {
-    position: relative;
-    min-height: 100vh;
-    padding: 120px 6vw;
-    z-index: 1;
-    border-bottom: 1px solid #222;
-}
-
-.explore-top {
+.topbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 85px;
+    border-bottom: 1px solid #1d1d1d;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 45px;
+    z-index: 5;
 }
 
-.explore-top span {
+.topbar-left {
     color: #555;
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: 3px;
 }
 
-.orbit {
-    position: relative;
-    width: min(75vw, 750px);
-    height: min(75vw, 750px);
-    margin: 40px auto 0;
-    border: 1px solid #202020;
-    border-radius: 50%;
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #777;
+    font-size: 9px;
+    letter-spacing: 2px;
 }
 
-.orbit::before {
+.live-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #aaa;
+}
+
+/* CENTER */
+
+.center {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.center-content {
+    width: min(700px, 75%);
+    position: relative;
+}
+
+/* large graphic */
+
+.graphic {
+    width: 230px;
+    height: 230px;
+    border: 1px solid #242424;
+    border-radius: 50%;
+    position: absolute;
+    right: -30px;
+    top: -110px;
+    animation: float 8s ease-in-out infinite;
+}
+
+.graphic::before {
     content: "";
     position: absolute;
-    width: 68%;
-    height: 68%;
-    left: 16%;
-    top: 16%;
+    inset: 28px;
     border: 1px solid #181818;
     border-radius: 50%;
 }
 
-.orbit-center {
+.graphic::after {
+    content: "";
     position: absolute;
-    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: #aaa;
+    border-radius: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+    left: -3px;
 }
 
-.orbit-center h3 {
-    font-size: 13px;
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-12px) rotate(8deg);
+    }
+}
+
+.kicker {
+    color: #555;
+    font-size: 9px;
     letter-spacing: 4px;
+    margin-bottom: 25px;
 }
 
-.orbit-center p {
-    margin-top: 10px;
+.name {
+    font-size: clamp(65px, 9vw, 145px);
+    line-height: .78;
+    letter-spacing: -9px;
+    font-weight: 700;
+}
+
+.name span {
+    display: block;
+    margin-left: 70px;
+}
+
+.description {
+    width: 310px;
+    margin-top: 55px;
+    margin-left: 72px;
+    color: #666;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+/* bottom controls */
+
+.center-bottom {
+    position: absolute;
+    bottom: 35px;
+    left: 45px;
+    right: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.coords {
+    color: #444;
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.scroll-hint {
     color: #555;
     font-size: 9px;
     letter-spacing: 2px;
 }
 
-.orbit-item {
-    position: absolute;
-    color: #888;
-    font-size: 11px;
-    letter-spacing: 2px;
-    transition: 0.3s;
+/* RIGHT PANEL */
+
+.right-panel {
+    border-left: 1px solid #1d1d1d;
+    display: flex;
+    flex-direction: column;
+    z-index: 5;
 }
 
-.orbit-item:hover {
-    color: white;
-    transform: scale(1.1);
-}
-
-.item-one {
-    top: 8%;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.item-two {
-    right: 5%;
-    top: 50%;
-}
-
-.item-three {
-    bottom: 9%;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.item-four {
-    left: 5%;
-    top: 50%;
-}
-
-/* contact */
-.contact {
-    position: relative;
-    z-index: 1;
-    min-height: 85vh;
-    padding: 150px 6vw 80px;
-}
-
-.contact-small {
+.panel-head {
+    height: 85px;
+    border-bottom: 1px solid #1d1d1d;
+    display: flex;
+    align-items: center;
+    padding: 0 25px;
     color: #555;
+    font-size: 9px;
+    letter-spacing: 3px;
+}
+
+.panel-content {
+    padding: 30px 25px;
+    flex: 1;
+}
+
+.panel-item {
+    padding: 20px 0;
+    border-bottom: 1px solid #1d1d1d;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.panel-item:hover {
+    padding-left: 8px;
+}
+
+.panel-label {
+    color: #444;
+    font-size: 8px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.panel-value {
+    color: #aaa;
+    font-size: 12px;
+}
+
+.panel-item:hover .panel-value {
+    color: white;
+}
+
+/* CONTACT */
+
+.contact-button {
+    margin-top: 35px;
+    width: 100%;
+    padding: 17px;
+    background: transparent;
+    border: 1px solid #333;
+    color: #aaa;
+    font-size: 9px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.contact-button:hover {
+    background: #ededed;
+    color: #050505;
+}
+
+/* CONTACT OVERLAY */
+
+.contact-screen {
+    position: fixed;
+    inset: 0;
+    background: #050505;
+    z-index: 30;
+    transform: translateY(100%);
+    transition: transform .55s cubic-bezier(.77,0,.18,1);
+    padding: 50px;
+}
+
+.contact-screen.open {
+    transform: translateY(0);
+}
+
+.close {
+    position: absolute;
+    top: 35px;
+    right: 45px;
+    color: #777;
     font-size: 10px;
     letter-spacing: 3px;
-    margin-bottom: 55px;
+    cursor: pointer;
 }
 
-.contact h2 {
-    font-size: clamp(70px, 13vw, 190px);
-    letter-spacing: -10px;
-    line-height: 0.75;
-    margin-bottom: 100px;
+.contact-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 900px;
+    margin: auto;
 }
 
-.contact h2 span {
+.contact-label {
+    color: #555;
+    font-size: 9px;
+    letter-spacing: 4px;
+    margin-bottom: 35px;
+}
+
+.contact-title {
+    font-size: clamp(60px, 10vw, 150px);
+    letter-spacing: -9px;
+    line-height: .8;
+    margin-bottom: 90px;
+}
+
+.contact-title span {
     color: #444;
-}
-
-.emails {
-    border-top: 1px solid #292929;
-    max-width: 850px;
 }
 
 .email {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 24px 0;
-    border-bottom: 1px solid #292929;
+    padding: 22px 0;
+    border-bottom: 1px solid #222;
     text-decoration: none;
-    color: #aaa;
+    color: #888;
     font-size: 13px;
-    transition: 0.3s;
+    transition: .25s;
+}
+
+.email:first-of-type {
+    border-top: 1px solid #222;
 }
 
 .email:hover {
     color: white;
-    padding-left: 12px;
+    padding-left: 10px;
 }
 
-.email-arrow {
-    color: #555;
-    font-size: 18px;
-}
-
-/* footer */
-footer {
-    position: relative;
-    z-index: 1;
-    padding: 25px 6vw;
-    border-top: 1px solid #222;
-    display: flex;
-    justify-content: space-between;
+.arrow {
     color: #444;
-    font-size: 9px;
-    letter-spacing: 2px;
 }
 
 /* mobile */
-@media (max-width: 700px) {
 
-    nav {
-        padding: 22px;
+@media (max-width: 800px) {
+
+    body {
+        overflow: auto;
     }
 
-    .nav-right {
-        gap: 14px;
+    .site {
+        min-height: 100vh;
+        height: auto;
+        display: block;
     }
 
-    .hero {
-        padding: 100px 22px 40px;
+    .left-rail {
+        display: none;
     }
 
-    .hero-line {
-        left: 22px;
-        right: 22px;
-        bottom: 40px;
+    .right-panel {
+        display: none;
     }
 
-    .hero h1 {
+    .main {
+        min-height: 100vh;
+    }
+
+    .topbar {
+        height: 70px;
+        padding: 0 22px;
+    }
+
+    .center {
+        min-height: 100vh;
+        padding: 100px 22px;
+    }
+
+    .center-content {
+        width: 100%;
+    }
+
+    .name {
         font-size: 21vw;
         letter-spacing: -6px;
     }
 
-    .hero h1 span {
-        margin-left: 10vw;
+    .name span {
+        margin-left: 35px;
     }
 
-    .hero-meta {
-        position: static;
-        margin-top: 70px;
+    .description {
+        margin-left: 35px;
+        width: 260px;
     }
 
-    .about {
-        display: block;
-        padding: 100px 22px;
+    .graphic {
+        width: 150px;
+        height: 150px;
+        right: 0;
+        top: -70px;
     }
 
-    .about-index {
-        margin-bottom: 50px;
+    .center-bottom {
+        left: 22px;
+        right: 22px;
     }
 
-    .about-main h2 {
-        letter-spacing: -3px;
+    .contact-screen {
+        padding: 25px;
     }
 
-    .about-text {
-        margin-top: 50px;
-        margin-left: 0;
-    }
-
-    .explore {
-        padding: 100px 22px;
-    }
-
-    .orbit {
-        width: 88vw;
-        height: 88vw;
-    }
-
-    .orbit-item {
-        font-size: 9px;
-    }
-
-    .contact {
-        padding: 110px 22px 70px;
-    }
-
-    .contact h2 {
+    .contact-title {
         letter-spacing: -5px;
-        margin-bottom: 70px;
     }
 
     .email {
-        font-size: 11px;
-    }
-
-    footer {
-        padding: 22px;
+        font-size: 10px;
     }
 }
 </style>
@@ -457,131 +480,154 @@ footer {
 
 <div class="mouse-light"></div>
 
-<nav>
-    <div class="logo">MEOWMAD</div>
+<div class="site">
 
-    <div class="nav-right">
-        <a href="#about">ABOUT</a>
-        <a href="#explore">EXPLORE</a>
-        <a href="#contact">CONTACT</a>
-    </div>
-</nav>
+    <!-- LEFT SIDE -->
 
+    <aside class="left-rail">
 
-<section class="hero">
-
-    <div class="hero-content">
-
-        <div class="overline">
-            PERSONAL SPACE / 001
+        <div class="mark">
+            MEOWMAD
         </div>
 
-        <h1>
-            MEOW
-            <span>MAD.</span>
-        </h1>
+        <div class="rail-middle">
+            <div class="rail-line"></div>
+            <div class="rail-number">01</div>
+            <div class="rail-line"></div>
+        </div>
 
-        <div class="hero-meta">
+        <div class="rail-number">
+            2026
+        </div>
 
-            <p>
-                Muhammad Khalid
-                <br>
-                California
-            </p>
+    </aside>
 
-            <div class="status">
-                <div class="status-dot"></div>
-                ONLINE
+
+    <!-- CENTER -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div class="topbar-left">
+                PERSONAL INTERFACE
+            </div>
+
+            <div class="topbar-right">
+                <div class="live-dot"></div>
+                ACTIVE
             </div>
 
         </div>
 
-    </div>
 
-    <div class="hero-line"></div>
+        <div class="center">
 
-</section>
+            <div class="center-content">
+
+                <div class="graphic"></div>
+
+                <div class="kicker">
+                    MUHAMMAD KHALID
+                </div>
+
+                <div class="name">
+                    MEOW
+                    <span>MAD.</span>
+                </div>
+
+                <p class="description">
+                    Technology, design, ideas,
+                    experiments and everything
+                    in between.
+                </p>
+
+            </div>
 
 
-<section class="about" id="about">
+            <div class="center-bottom">
 
-    <div class="about-index">
-        01 — ABOUT
-    </div>
+                <div class="coords">
+                    38.57° N / 121.37° W
+                </div>
 
-    <div class="about-main">
+                <div class="scroll-hint">
+                    MOVE / EXPLORE
+                </div>
 
-        <h2>
-            A personal space
-            <span>without much noise.</span>
-        </h2>
+            </div>
 
-        <div class="about-text">
-            This is my corner of the internet.
-            A place for ideas, technology, design,
-            projects, and whatever happens to
-            interest me.
         </div>
 
+    </main>
+
+
+    <!-- RIGHT SIDE -->
+
+    <aside class="right-panel">
+
+        <div class="panel-head">
+            INDEX
+        </div>
+
+        <div class="panel-content">
+
+            <div class="panel-item">
+                <div class="panel-label">01</div>
+                <div class="panel-value">About</div>
+            </div>
+
+            <div class="panel-item">
+                <div class="panel-label">02</div>
+                <div class="panel-value">Technology</div>
+            </div>
+
+            <div class="panel-item">
+                <div class="panel-label">03</div>
+                <div class="panel-value">Design</div>
+            </div>
+
+            <div class="panel-item">
+                <div class="panel-label">04</div>
+                <div class="panel-value">Ideas</div>
+            </div>
+
+            <button class="contact-button" onclick="openContact()">
+                CONTACT ME
+            </button>
+
+        </div>
+
+    </aside>
+
+</div>
+
+
+<!-- CONTACT SCREEN -->
+
+<div class="contact-screen" id="contact">
+
+    <div class="close" onclick="closeContact()">
+        CLOSE ×
     </div>
 
-</section>
+    <div class="contact-inner">
 
-
-<section class="explore" id="explore">
-
-    <div class="explore-top">
-        <span>02 — INTERESTS</span>
-        <span>SELECT / EXPLORE</span>
-    </div>
-
-    <div class="orbit">
-
-        <div class="orbit-center">
-            <h3>MEOWMAD</h3>
-            <p>INTERESTS</p>
+        <div class="contact-label">
+            CONTACT / 04
         </div>
 
-        <div class="orbit-item item-one">
-            TECHNOLOGY
+        <div class="contact-title">
+            Contact
+            <span>me.</span>
         </div>
-
-        <div class="orbit-item item-two">
-            DESIGN
-        </div>
-
-        <div class="orbit-item item-three">
-            BUILDING
-        </div>
-
-        <div class="orbit-item item-four">
-            IDEAS
-        </div>
-
-    </div>
-
-</section>
-
-
-<section class="contact" id="contact">
-
-    <div class="contact-small">
-        03 — CONTACT
-    </div>
-
-    <h2>
-        Contact
-        <span>me.</span>
-    </h2>
-
-    <div class="emails">
 
         <a
             class="email"
             href="mailto:muhammad.khalid@student.rjuhsd.com"
         >
             <span>muhammad.khalid@student.rjuhsd.com</span>
-            <span class="email-arrow">↗</span>
+            <span class="arrow">↗</span>
         </a>
 
         <a
@@ -589,30 +635,37 @@ footer {
             href="mailto:khalid791abduallah@gmail.com"
         >
             <span>khalid791abduallah@gmail.com</span>
-            <span class="email-arrow">↗</span>
+            <span class="arrow">↗</span>
         </a>
 
     </div>
 
-</section>
-
-
-<footer>
-    <span>MEOWMAD</span>
-    <span>2026</span>
-</footer>
+</div>
 
 
 <script>
 
+/* mouse light */
+
 const light = document.querySelector(".mouse-light");
 
-document.addEventListener("mousemove", function(e) {
+document.addEventListener("mousemove", function(event) {
 
-    light.style.left = e.clientX + "px";
-    light.style.top = e.clientY + "px";
+    light.style.left = event.clientX + "px";
+    light.style.top = event.clientY + "px";
 
 });
+
+
+/* contact panel */
+
+function openContact() {
+    document.getElementById("contact").classList.add("open");
+}
+
+function closeContact() {
+    document.getElementById("contact").classList.remove("open");
+}
 
 </script>
 
