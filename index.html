@@ -3,7 +3,7 @@
 
 <head>
 
-<title>Meowmad — Personal</title>
+<title>Meowmad</title>
 
 <style>
 
@@ -17,59 +17,60 @@ html {
 
 body {
     margin: 0;
-    background: #ffffff;
-    color: #111111;
+    background: #f7f7f5;
+    color: #111;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* MAIN */
 
-.container {
-    width: 88%;
-    max-width: 1200px;
+/* LAYOUT */
+
+.page {
+    width: 90%;
+    max-width: 1250px;
     margin: auto;
 }
 
 
-/* NAV */
+/* NAVIGATION */
 
 nav {
-    height: 90px;
+    height: 85px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    border-bottom: 1px solid #111111;
+    border-bottom: 1px solid #111;
 }
 
 .logo {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
     letter-spacing: 3px;
 }
 
-.nav-right {
+.nav-links {
     display: flex;
-    gap: 30px;
+    gap: 28px;
 }
 
-.nav-right a {
-    color: #111111;
+.nav-links a {
+    color: #111;
     text-decoration: none;
-    font-size: 12px;
-    letter-spacing: 1px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
 }
 
-.nav-right a:hover {
-    text-decoration: underline;
+.nav-links a:hover {
+    opacity: 0.45;
 }
 
 
 /* HERO */
 
 .hero {
-    min-height: 75vh;
+    min-height: 78vh;
 
     display: flex;
     flex-direction: column;
@@ -78,28 +79,29 @@ nav {
     padding: 80px 0;
 }
 
-.label {
-    font-size: 11px;
+.eyebrow {
+    font-size: 10px;
     letter-spacing: 3px;
-    margin-bottom: 30px;
+    color: #777;
+    margin-bottom: 28px;
 }
 
 h1 {
-    font-size: clamp(55px, 9vw, 125px);
-    line-height: 0.88;
-    letter-spacing: -6px;
-    font-weight: 600;
+    font-size: clamp(60px, 10vw, 145px);
+    font-weight: 500;
+    letter-spacing: -8px;
+    line-height: 0.84;
+
     margin: 0;
 
-    max-width: 1000px;
+    max-width: 1100px;
 }
 
 h1 span {
-    display: block;
-    color: #999999;
+    color: #888;
 }
 
-.hero-bottom {
+.hero-info {
     margin-top: 55px;
 
     display: flex;
@@ -107,36 +109,28 @@ h1 span {
     align-items: end;
 }
 
-.intro {
-    width: 400px;
+.description {
+    width: 390px;
+
+    color: #555;
 
     font-size: 14px;
     line-height: 1.7;
-    color: #555555;
 }
 
-.scroll {
+.year {
     font-size: 11px;
-    letter-spacing: 2px;
+    color: #777;
 }
 
 
-/* LINE */
-
-.line {
-    width: 100%;
-    height: 1px;
-    background: #111111;
-}
-
-
-/* ABOUT */
+/* SECTIONS */
 
 .section {
-    padding: 110px 0;
+    padding: 120px 0;
 }
 
-.section-header {
+.section-top {
     display: flex;
     justify-content: space-between;
 
@@ -144,109 +138,170 @@ h1 span {
 }
 
 .section-number {
-    font-size: 11px;
+    font-size: 10px;
+    color: #777;
     letter-spacing: 2px;
 }
 
-.section-name {
-    font-size: 11px;
+.section-label {
+    font-size: 10px;
+    color: #777;
     letter-spacing: 2px;
-    color: #777777;
 }
 
-.about-content {
-    max-width: 800px;
+
+/* ABOUT */
+
+.about-text {
+    max-width: 850px;
 
     font-size: 32px;
     line-height: 1.35;
+
     letter-spacing: -1px;
 }
 
 
-/* PROJECTS */
+/* WORK */
 
-.project {
+.work-list {
+    border-top: 1px solid #111;
+}
+
+.work {
+    min-height: 100px;
+
     display: grid;
 
-    grid-template-columns: 60px 1fr 150px;
+    grid-template-columns: 70px 1fr 180px 30px;
 
     align-items: center;
 
-    padding: 28px 0;
+    border-bottom: 1px solid #ccc;
 
-    border-top: 1px solid #cccccc;
-
-    transition: 0.2s;
+    transition: 0.25s;
 }
 
-.project:last-child {
-    border-bottom: 1px solid #cccccc;
-}
-
-.project:hover {
+.work:hover {
     padding-left: 15px;
 }
 
-.project-number {
-    color: #999999;
-    font-size: 11px;
-}
-
-.project-title {
-    font-size: 18px;
-}
-
-.project-type {
-    text-align: right;
-
+.work-number {
     font-size: 10px;
-    letter-spacing: 2px;
+    color: #999;
+}
 
-    color: #777777;
+.work-name {
+    font-size: 17px;
+}
+
+.work-category {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: #777;
+}
+
+.arrow {
+    font-size: 15px;
+    color: #777;
 }
 
 
-/* INFO */
+/* DETAILS */
 
-.info {
+.details {
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
 
-    gap: 80px;
+    gap: 40px;
 }
 
-.info-box {
-    border-top: 1px solid #111111;
+.detail {
+    border-top: 1px solid #111;
+
     padding-top: 20px;
 }
 
-.info-title {
-    font-size: 11px;
+.detail-title {
+    font-size: 10px;
+    color: #777;
     letter-spacing: 2px;
-    color: #777777;
 
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
-.info-text {
-    font-size: 15px;
-    line-height: 1.7;
+.detail-text {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* CONTACT */
+
+.contact {
+    min-height: 55vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contact-title {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #777;
+
+    margin-bottom: 30px;
+}
+
+.contact h2 {
+    margin: 0;
+
+    font-size: clamp(45px, 7vw, 90px);
+
+    font-weight: 500;
+
+    letter-spacing: -5px;
+}
+
+.contact a {
+    display: inline-block;
+
+    margin-top: 40px;
+
+    color: #111;
+
+    font-size: 13px;
+
+    text-decoration: none;
+
+    border-bottom: 1px solid #111;
+
+    padding-bottom: 6px;
+}
+
+.contact a:hover {
+    opacity: 0.5;
 }
 
 
 /* FOOTER */
 
 footer {
-    padding: 35px 0;
+    height: 90px;
+
+    border-top: 1px solid #111;
 
     display: flex;
+    align-items: center;
     justify-content: space-between;
 
-    font-size: 10px;
+    font-size: 9px;
+
     letter-spacing: 2px;
 
-    color: #777777;
+    color: #777;
 }
 
 
@@ -254,55 +309,63 @@ footer {
 
 @media (max-width: 700px) {
 
-    .container {
-        width: 90%;
+    .page {
+        width: 88%;
     }
 
     nav {
         height: 70px;
     }
 
-    .nav-right {
+    .nav-links {
         gap: 15px;
     }
 
-    h1 {
-        font-size: 55px;
-        letter-spacing: -3px;
+    .nav-links a {
+        font-size: 9px;
     }
 
-    .hero-bottom {
+    h1 {
+        font-size: 58px;
+        letter-spacing: -4px;
+    }
+
+    .hero-info {
         display: block;
     }
 
-    .intro {
+    .description {
         width: 100%;
     }
 
-    .scroll {
-        margin-top: 35px;
+    .year {
+        margin-top: 25px;
     }
 
-    .about-content {
+    .section {
+        padding: 85px 0;
+    }
+
+    .about-text {
         font-size: 24px;
     }
 
-    .project {
-        grid-template-columns: 40px 1fr;
+    .work {
+        grid-template-columns: 40px 1fr 25px;
     }
 
-    .project-type {
+    .work-category {
         display: none;
     }
 
-    .info {
+    .details {
         grid-template-columns: 1fr;
         gap: 50px;
     }
 
-    footer {
-        display: block;
-        line-height: 2;
+    .contact h2 {
+        font-size: 48px;
+        letter-spacing: -3px;
     }
 
 }
@@ -315,10 +378,8 @@ footer {
 <body>
 
 
-<div class="container">
+<div class="page">
 
-
-<!-- NAVIGATION -->
 
 <nav>
 
@@ -326,7 +387,7 @@ footer {
 MEOWMAD
 </div>
 
-<div class="nav-right">
+<div class="nav-links">
 
 <a href="#about">ABOUT</a>
 
@@ -339,12 +400,10 @@ MEOWMAD
 </nav>
 
 
-<!-- HERO -->
-
 <section class="hero">
 
-<div class="label">
-PERSONAL WEBSITE / 001
+<div class="eyebrow">
+PERSONAL / DIGITAL / 2026
 </div>
 
 <h1>
@@ -352,15 +411,15 @@ Welcome to
 <span>Meowmad's website.</span>
 </h1>
 
-<div class="hero-bottom">
+<div class="hero-info">
 
-<div class="intro">
-A minimal space for projects, ideas,
-experiments and things worth keeping.
+<div class="description">
+A personal space for projects, experiments,
+ideas, and whatever happens to be worth making.
 </div>
 
-<div class="scroll">
-SCROLL ↓
+<div class="year">
+EST. 2026
 </div>
 
 </div>
@@ -368,207 +427,238 @@ SCROLL ↓
 </section>
 
 
-<div class="line"></div>
+<div style="border-top: 1px solid #111;"></div>
 
-
-<!-- ABOUT -->
 
 <section class="section" id="about">
 
-<div class="section-header">
+<div class="section-top">
 
 <div class="section-number">
 01
 </div>
 
-<div class="section-name">
+<div class="section-label">
 ABOUT
 </div>
 
 </div>
 
+<div class="about-text">
 
-<div class="about-content">
-
-I'm interested in making things that
-look good, work well, and don't need
-to explain themselves.
+I make things on the internet.
+Some are useful, some are unnecessary,
+and some are still being figured out.
 
 </div>
 
 </section>
 
 
-<div class="line"></div>
+<div style="border-top: 1px solid #111;"></div>
 
-
-<!-- WORK -->
 
 <section class="section" id="work">
 
-<div class="section-header">
+<div class="section-top">
 
 <div class="section-number">
 02
 </div>
 
-<div class="section-name">
-SELECTED WORK
+<div class="section-label">
+SELECTED
 </div>
 
 </div>
 
 
-<div class="project">
+<div class="work-list">
 
-<div class="project-number">
+
+<div class="work">
+
+<div class="work-number">
 01
 </div>
 
-<div class="project-title">
+<div class="work-name">
 Personal Website
 </div>
 
-<div class="project-type">
-WEB / 2026
+<div class="work-category">
+WEB DESIGN
+</div>
+
+<div class="arrow">
+→
 </div>
 
 </div>
 
 
-<div class="project">
+<div class="work">
 
-<div class="project-number">
+<div class="work-number">
 02
 </div>
 
-<div class="project-title">
+<div class="work-name">
 Experiments
 </div>
 
-<div class="project-type">
+<div class="work-category">
 DIGITAL
 </div>
 
+<div class="arrow">
+→
+</div>
+
 </div>
 
 
-<div class="project">
+<div class="work">
 
-<div class="project-number">
+<div class="work-number">
 03
 </div>
 
-<div class="project-title">
+<div class="work-name">
 Things In Progress
 </div>
 
-<div class="project-type">
+<div class="work-category">
 ONGOING
 </div>
 
+<div class="arrow">
+→
+</div>
+
 </div>
 
 
-<div class="project">
+<div class="work">
 
-<div class="project-number">
+<div class="work-number">
 04
 </div>
 
-<div class="project-title">
+<div class="work-name">
 Future Projects
 </div>
 
-<div class="project-type">
+<div class="work-category">
 UNKNOWN
 </div>
 
+<div class="arrow">
+→
+</div>
+
+</div>
+
+
 </div>
 
 </section>
 
 
-<div class="line"></div>
+<div style="border-top: 1px solid #111;"></div>
 
-
-<!-- INFO -->
 
 <section class="section">
 
-<div class="info">
-
-
-<div class="info-box">
-
-<div class="info-title">
-CURRENTLY
-</div>
-
-<div class="info-text">
-Learning. Building. Experimenting.
-</div>
-
-</div>
-
-
-<div class="info-box">
-
-<div class="info-title">
-LOCATION
-</div>
-
-<div class="info-text">
-Somewhere on the internet.
-</div>
-
-</div>
-
-
-</div>
-
-</section>
-
-
-<div class="line"></div>
-
-
-<!-- CONTACT -->
-
-<section class="section" id="contact">
-
-<div class="section-header">
+<div class="section-top">
 
 <div class="section-number">
 03
 </div>
 
-<div class="section-name">
-CONTACT
+<div class="section-label">
+DETAILS
 </div>
 
 </div>
 
-<div class="about-content">
 
-If you found this website,
-you probably already know where to find me.
+<div class="details">
+
+
+<div class="detail">
+
+<div class="detail-title">
+CURRENTLY
+</div>
+
+<div class="detail-text">
+Learning, building, experimenting.
+</div>
+
+</div>
+
+
+<div class="detail">
+
+<div class="detail-title">
+INTERESTS
+</div>
+
+<div class="detail-text">
+Design, technology, games, the internet.
+</div>
+
+</div>
+
+
+<div class="detail">
+
+<div class="detail-title">
+STATUS
+</div>
+
+<div class="detail-text">
+Still making things.
+</div>
+
+</div>
+
 
 </div>
 
 </section>
 
 
-<!-- FOOTER -->
+<div style="border-top: 1px solid #111;"></div>
+
+
+<section class="contact" id="contact">
+
+<div class="contact-title">
+04 / CONTACT
+</div>
+
+<h2>
+Let's make<br>
+something.
+</h2>
+
+<a href="mailto:hello@example.com">
+hello@example.com →
+</a>
+
+</section>
+
 
 <footer>
 
 <div>
-MEOWMAD / 2026
+MEOWMAD
 </div>
 
 <div>
-END OF PAGE
+2026
 </div>
 
 </footer>
