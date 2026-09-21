@@ -2,588 +2,1683 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Meowmad</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Dashline</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-html {
-    scroll-behavior: smooth;
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#080a12;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-body {
-    background: #050505;
-    color: #f2f2f2;
-    font-family: Arial, Helvetica, sans-serif;
-    overflow-x: hidden;
+body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
-/* subtle mouse light */
-.mouse-light {
-    position: fixed;
-    width: 500px;
-    height: 500px;
-    border-radius: 50%;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(
-        circle,
-        rgba(255,255,255,0.055) 0%,
-        rgba(255,255,255,0.018) 35%,
-        transparent 70%
-    );
-    z-index: 0;
-    transition: left 0.12s ease-out, top 0.12s ease-out;
+canvas{
+    display:block;
+    width:100vw;
+    height:100vh;
+    background:#080a12;
+    cursor:pointer;
 }
 
-/* thin grain */
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.035;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
-    z-index: 10;
+#ui{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    color:white;
 }
 
-/* navigation */
-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 28px 38px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 20;
-    mix-blend-mode: difference;
+#title{
+    position:absolute;
+    top:18px;
+    left:22px;
+    font-size:13px;
+    font-weight:bold;
+    letter-spacing:4px;
+    opacity:.8;
 }
 
-.logo {
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: 3px;
+#progressWrap{
+    position:absolute;
+    top:18px;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(430px,55vw);
+    height:5px;
+    border:1px solid rgba(255,255,255,.15);
 }
 
-.nav-right {
-    display: flex;
-    gap: 28px;
+#progress{
+    width:0%;
+    height:100%;
+    background:#fff;
 }
 
-.nav-right a {
-    color: white;
-    text-decoration: none;
-    font-size: 10px;
-    letter-spacing: 2px;
-    opacity: 0.65;
-    transition: 0.25s;
+#percent{
+    position:absolute;
+    top:31px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:10px;
+    letter-spacing:2px;
+    opacity:.6;
 }
 
-.nav-right a:hover {
-    opacity: 1;
+#attempt{
+    position:absolute;
+    top:18px;
+    right:22px;
+    font-size:10px;
+    letter-spacing:2px;
+    opacity:.55;
 }
 
-/* hero */
-.hero {
-    height: 100vh;
-    min-height: 650px;
-    position: relative;
-    z-index: 1;
-    padding: 120px 6vw 50px;
-    display: flex;
-    align-items: center;
+#message{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    opacity:0;
+    transition:.25s;
 }
 
-.hero-line {
-    position: absolute;
-    left: 6vw;
-    right: 6vw;
-    bottom: 50px;
-    height: 1px;
-    background: #242424;
+#message.show{
+    opacity:1;
 }
 
-.hero-content {
-    position: relative;
+#message h1{
+    font-size:clamp(38px,7vw,80px);
+    letter-spacing:-4px;
 }
 
-.overline {
-    font-size: 10px;
-    letter-spacing: 4px;
-    color: #777;
-    margin-bottom: 30px;
-}
-
-/* MEOWMAD title */
-.hero h1 {
-    font-size: clamp(75px, 15vw, 220px);
-    line-height: 0.76;
-    letter-spacing: -12px;
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-.hero-meta {
-    position: absolute;
-    right: 0;
-    bottom: 2px;
-    width: 180px;
-}
-
-.hero-meta p {
-    color: #777;
-    font-size: 11px;
-    line-height: 1.7;
-}
-
-/* about */
-.about {
-    position: relative;
-    z-index: 1;
-    min-height: 100vh;
-    padding: 140px 6vw;
-    display: grid;
-    grid-template-columns: 25% 75%;
-    border-bottom: 1px solid #222;
-}
-
-.about-index {
-    color: #555;
-    font-size: 10px;
-    letter-spacing: 3px;
-}
-
-.about-main {
-    max-width: 850px;
-}
-
-.about-main h2 {
-    font-size: clamp(42px, 6vw, 85px);
-    line-height: 0.95;
-    letter-spacing: -5px;
-    font-weight: 500;
-    margin-bottom: 65px;
-}
-
-.about-main h2 span {
-    color: #555;
-}
-
-.about-text {
-    max-width: 530px;
-    margin-left: auto;
-    color: #777;
-    font-size: 15px;
-    line-height: 1.8;
-}
-
-/* orbit section */
-.explore {
-    position: relative;
-    min-height: 100vh;
-    padding: 120px 6vw;
-    z-index: 1;
-    border-bottom: 1px solid #222;
-}
-
-.explore-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.explore-top span {
-    color: #555;
-    font-size: 10px;
-    letter-spacing: 3px;
-}
-
-.orbit {
-    position: relative;
-    width: min(75vw, 750px);
-    height: min(75vw, 750px);
-    margin: 40px auto 0;
-    border: 1px solid #202020;
-    border-radius: 50%;
-}
-
-.orbit::before {
-    content: "";
-    position: absolute;
-    width: 68%;
-    height: 68%;
-    left: 16%;
-    top: 16%;
-    border: 1px solid #181818;
-    border-radius: 50%;
-}
-
-.orbit-center {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-.orbit-center h3 {
-    font-size: 13px;
-    letter-spacing: 4px;
-}
-
-.orbit-center p {
-    margin-top: 10px;
-    color: #555;
-    font-size: 9px;
-    letter-spacing: 2px;
-}
-
-.orbit-item {
-    position: absolute;
-    color: #888;
-    font-size: 11px;
-    letter-spacing: 2px;
-    transition: 0.3s;
-}
-
-.orbit-item:hover {
-    color: white;
-    transform: scale(1.1);
-}
-
-.item-one {
-    top: 8%;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.item-two {
-    right: 5%;
-    top: 50%;
-}
-
-.item-three {
-    bottom: 9%;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.item-four {
-    left: 5%;
-    top: 50%;
-}
-
-/* contact */
-.contact {
-    position: relative;
-    z-index: 1;
-    min-height: 85vh;
-    padding: 150px 6vw 80px;
-}
-
-.contact-small {
-    color: #555;
-    font-size: 10px;
-    letter-spacing: 3px;
-    margin-bottom: 55px;
-}
-
-.contact h2 {
-    font-size: clamp(70px, 13vw, 190px);
-    letter-spacing: -10px;
-    line-height: 0.75;
-    margin-bottom: 100px;
-}
-
-.contact h2 span {
-    color: #444;
-}
-
-.emails {
-    border-top: 1px solid #292929;
-    max-width: 850px;
-}
-
-.email {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px 0;
-    border-bottom: 1px solid #292929;
-    text-decoration: none;
-    color: #aaa;
-    font-size: 13px;
-    transition: 0.3s;
-}
-
-.email:hover {
-    color: white;
-    padding-left: 12px;
-}
-
-.email-arrow {
-    color: #555;
-    font-size: 18px;
-}
-
-/* footer */
-footer {
-    position: relative;
-    z-index: 1;
-    padding: 25px 6vw;
-    border-top: 1px solid #222;
-    display: flex;
-    justify-content: space-between;
-    color: #444;
-    font-size: 9px;
-    letter-spacing: 2px;
-}
-
-/* mobile */
-@media (max-width: 700px) {
-
-    nav {
-        padding: 22px;
-    }
-
-    .nav-right {
-        gap: 14px;
-    }
-
-    .hero {
-        padding: 100px 22px 40px;
-    }
-
-    .hero-line {
-        left: 22px;
-        right: 22px;
-        bottom: 40px;
-    }
-
-    .hero h1 {
-        font-size: 18vw;
-        letter-spacing: -5px;
-        white-space: nowrap;
-    }
-
-    .hero-meta {
-        position: static;
-        margin-top: 70px;
-    }
-
-    .about {
-        display: block;
-        padding: 100px 22px;
-    }
-
-    .about-index {
-        margin-bottom: 50px;
-    }
-
-    .about-main h2 {
-        letter-spacing: -3px;
-    }
-
-    .about-text {
-        margin-top: 50px;
-        margin-left: 0;
-    }
-
-    .explore {
-        padding: 100px 22px;
-    }
-
-    .orbit {
-        width: 88vw;
-        height: 88vw;
-    }
-
-    .orbit-item {
-        font-size: 9px;
-    }
-
-    .contact {
-        padding: 110px 22px 70px;
-    }
-
-    .contact h2 {
-        letter-spacing: -5px;
-        margin-bottom: 70px;
-    }
-
-    .email {
-        font-size: 11px;
-    }
-
-    footer {
-        padding: 22px;
-    }
+#message p{
+    margin-top:15px;
+    font-size:11px;
+    letter-spacing:3px;
+    opacity:.55;
 }
 </style>
 </head>
 
 <body>
 
-<div class="mouse-light"></div>
+<canvas id="game"></canvas>
 
-<nav>
+<div id="ui">
 
-    <div class="logo">
-        MEOWMAD
+    <div id="title">DASHLINE</div>
+
+    <div id="progressWrap">
+        <div id="progress"></div>
     </div>
 
-    <div class="nav-right">
-        <a href="#about">ABOUT</a>
-        <a href="#explore">EXPLORE</a>
-        <a href="#contact">CONTACT</a>
+    <div id="percent">0%</div>
+
+    <div id="attempt">ATTEMPT 1</div>
+
+    <div id="message">
+        <h1 id="messageTitle">READY</h1>
+        <p id="messageText">CLICK OR PRESS SPACE</p>
     </div>
 
-</nav>
-
-
-<section class="hero">
-
-    <div class="hero-content">
-
-        <div class="overline">
-            PERSONAL SPACE / 001
-        </div>
-
-        <h1>MEOWMAD.</h1>
-
-        <div class="hero-meta">
-
-            <p>
-                California
-            </p>
-
-        </div>
-
-    </div>
-
-    <div class="hero-line"></div>
-
-</section>
-
-
-<section class="about" id="about">
-
-    <div class="about-index">
-        01 — ABOUT
-    </div>
-
-    <div class="about-main">
-
-        <h2>
-            A personal space
-            <span>without much noise.</span>
-        </h2>
-
-        <div class="about-text">
-            This is my corner of the internet.
-            A place for ideas, technology, design,
-            projects, and whatever happens to
-            interest me.
-        </div>
-
-    </div>
-
-</section>
-
-
-<section class="explore" id="explore">
-
-    <div class="explore-top">
-        <span>02 — INTERESTS</span>
-        <span>SELECT / EXPLORE</span>
-    </div>
-
-    <div class="orbit">
-
-        <div class="orbit-center">
-            <h3>MEOWMAD</h3>
-            <p>INTERESTS</p>
-        </div>
-
-        <div class="orbit-item item-one">
-            TECHNOLOGY
-        </div>
-
-        <div class="orbit-item item-two">
-            DESIGN
-        </div>
-
-        <div class="orbit-item item-three">
-            BUILDING
-        </div>
-
-        <div class="orbit-item item-four">
-            IDEAS
-        </div>
-
-    </div>
-
-</section>
-
-
-<section class="contact" id="contact">
-
-    <div class="contact-small">
-        03 — CONTACT
-    </div>
-
-    <h2>
-        Contact
-        <span>me.</span>
-    </h2>
-
-    <div class="emails">
-
-        <a
-            class="email"
-            href="mailto:muhammad.khalid@student.rjuhsd.com"
-        >
-            <span>muhammad.khalid@student.rjuhsd.com</span>
-            <span class="email-arrow">↗</span>
-        </a>
-
-        <a
-            class="email"
-            href="mailto:khalid791abduallah@gmail.com"
-        >
-            <span>khalid791abduallah@gmail.com</span>
-            <span class="email-arrow">↗</span>
-        </a>
-
-    </div>
-
-</section>
-
-
-<footer>
-    <span>MEOWMAD</span>
-    <span>2026</span>
-</footer>
-
+</div>
 
 <script>
 
-const light = document.querySelector(".mouse-light");
+/* =========================================================
+   DASHLINE
+   Original browser platform game
+   ========================================================= */
 
-document.addEventListener("mousemove", function(e) {
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
 
-    light.style.left = e.clientX + "px";
-    light.style.top = e.clientY + "px";
+let W = 0;
+let H = 0;
+let DPR = 1;
+
+function resize(){
+
+    DPR = Math.min(window.devicePixelRatio || 1,2);
+
+    W = window.innerWidth;
+    H = window.innerHeight;
+
+    canvas.width = W * DPR;
+    canvas.height = H * DPR;
+
+    canvas.style.width = W + "px";
+    canvas.style.height = H + "px";
+
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+
+window.addEventListener("resize",resize);
+resize();
+
+
+/* =========================================================
+   GAME SETTINGS
+   ========================================================= */
+
+const groundY = 0;
+
+const player = {
+
+    x:120,
+    y:0,
+
+    size:32,
+
+    vy:0,
+
+    gravity:0.92,
+
+    jumpPower:-15.8,
+
+    grounded:false,
+
+    rotation:0,
+
+    alive:true,
+
+    color:"#ffffff"
+
+};
+
+let cameraX = 0;
+
+let speed = 6.5;
+
+let gameStarted = false;
+
+let gameOver = false;
+
+let completed = false;
+
+let attempt = 1;
+
+let distance = 0;
+
+let shake = 0;
+
+let particles = [];
+
+let trail = [];
+
+
+/* =========================================================
+   LEVEL
+   ========================================================= */
+
+const levelLength = 18500;
+
+const platforms = [];
+
+const spikes = [];
+
+const pads = [];
+
+const portals = [];
+
+const blocks = [];
+
+
+/* Add platform */
+
+function platform(x,y,w,h=30){
+
+    platforms.push({
+        x,
+        y,
+        w,
+        h
+    });
+
+}
+
+
+/* Add spike */
+
+function spike(x,y,size=38){
+
+    spikes.push({
+        x,
+        y,
+        size
+    });
+
+}
+
+
+/* Add jump pad */
+
+function pad(x,y,w=45){
+
+    pads.push({
+        x,
+        y,
+        w,
+        h:10
+    });
+
+}
+
+
+/* Add portal */
+
+function portal(x,type){
+
+    portals.push({
+        x,
+        type,
+        used:false
+    });
+
+}
+
+
+/* Add block */
+
+function block(x,y,w,h){
+
+    blocks.push({
+        x,
+        y,
+        w,
+        h
+    });
+
+}
+
+
+/* =========================================================
+   LEVEL GENERATION
+   ========================================================= */
+
+function buildLevel(){
+
+    platforms.length=0;
+    spikes.length=0;
+    pads.length=0;
+    portals.length=0;
+    blocks.length=0;
+
+    /* Starting floor */
+
+    platform(-500,0,1100,50);
+
+    /* Section 1 */
+
+    spike(680,50);
+    spike(730,50);
+
+    platform(800,0,260,50);
+
+    spike(1110,50);
+    spike(1160,50);
+    spike(1210,50);
+
+    platform(1280,0,330,50);
+
+    spike(1450,50);
+
+    /* Section 2 */
+
+    platform(1680,0,160,50);
+    platform(1900,85,160,35);
+    platform(2130,150,180,35);
+    platform(2380,80,180,35);
+    platform(2640,0,280,50);
+
+    spike(2750,50);
+    spike(2800,50);
+
+    /* Section 3 */
+
+    platform(3000,0,300,50);
+
+    block(3150,50,45,90);
+    block(3300,50,45,150);
+
+    spike(3500,50);
+    spike(3550,50);
+
+    platform(3400,0,500,50);
+
+    /* Section 4 */
+
+    pad(4000,50);
+
+    platform(3950,0,120,50);
+    platform(4200,130,220,35);
+    platform(4500,230,220,35);
+    platform(4800,130,220,35);
+    platform(5100,0,350,50);
+
+    /* Section 5 */
+
+    spike(5250,50);
+    spike(5300,50);
+    spike(5350,50);
+
+    platform(5550,0,160,50);
+
+    pad(5660,50);
+
+    platform(5800,150,190,35);
+    platform(6080,80,190,35);
+    platform(6360,0,260,50);
+
+    /* Section 6 */
+
+    spike(6500,50);
+    spike(6550,50);
+
+    block(6700,50,50,130);
+    block(6800,50,50,200);
+    block(6900,50,50,130);
+
+    platform(6650,0,500,50);
+
+    portal(7200,"fast");
+
+    /* Fast section */
+
+    platform(7100,0,1200,50);
+
+    spike(7350,50);
+    spike(7395,50);
+    spike(7440,50);
+
+    spike(7700,50);
+    spike(7750,50);
+
+    block(8000,50,55,140);
+
+    spike(8250,50);
+    spike(8300,50);
+    spike(8350,50);
+
+    portal(8500,"normal");
+
+    /* Section 7 */
+
+    platform(8400,0,300,50);
+
+    platform(8800,100,160,35);
+    platform(9050,170,160,35);
+    platform(9300,100,160,35);
+
+    platform(9550,0,300,50);
+
+    spike(9680,50);
+    spike(9730,50);
+
+    /* Section 8 */
+
+    pad(10050,50);
+
+    platform(9900,0,180,50);
+    platform(10300,150,190,35);
+    platform(10600,70,190,35);
+    platform(10900,0,300,50);
+
+    spike(11050,50);
+    spike(11100,50);
+    spike(11150,50);
+
+    /* Section 9 */
+
+    platform(11400,0,800,50);
+
+    for(let x=11550;x<12100;x+=110){
+        spike(x,50);
+    }
+
+    portal(12300,"fast");
+
+    platform(12200,0,1300,50);
+
+    for(let x=12400;x<13400;x+=125){
+        spike(x,50);
+    }
+
+    portal(13500,"normal");
+
+    /* Section 10 */
+
+    platform(13400,0,300,50);
+
+    platform(13800,120,180,35);
+    platform(14100,220,180,35);
+    platform(14400,120,180,35);
+
+    pad(14600,155);
+
+    platform(14600,0,400,50);
+
+    spike(14800,50);
+    spike(14850,50);
+
+    /* Final */
+
+    platform(15150,0,900,50);
+
+    spike(15300,50);
+    spike(15350,50);
+    spike(15400,50);
+
+    block(15600,50,50,150);
+    block(15700,50,50,100);
+
+    spike(15900,50);
+    spike(15950,50);
+
+    platform(16100,0,400,50);
+
+    pad(16400,50);
+
+    platform(16350,0,700,50);
+
+    spike(16600,50);
+    spike(16650,50);
+    spike(16700,50);
+
+    platform(16900,0,700,50);
+
+    spike(17100,50);
+    spike(17150,50);
+
+    platform(17300,0,900,50);
+
+    for(let x=17500;x<17900;x+=100){
+        spike(x,50);
+    }
+
+    platform(18000,0,700,50);
+}
+
+buildLevel();
+
+
+/* =========================================================
+   INPUT
+   ========================================================= */
+
+let jumpPressed=false;
+
+function jump(){
+
+    if(completed){
+
+        restart();
+
+        return;
+    }
+
+    if(gameOver){
+
+        restart();
+
+        return;
+    }
+
+    if(!gameStarted){
+
+        gameStarted=true;
+
+        hideMessage();
+
+        return;
+    }
+
+    if(player.grounded){
+
+        player.vy=player.jumpPower;
+
+        player.grounded=false;
+
+        createJumpParticles();
+
+    }
+
+}
+
+
+window.addEventListener("keydown",e=>{
+
+    if(
+        e.code==="Space" ||
+        e.code==="ArrowUp" ||
+        e.code==="KeyW"
+    ){
+
+        e.preventDefault();
+
+        if(!jumpPressed){
+
+            jumpPressed=true;
+
+            jump();
+
+        }
+
+    }
 
 });
+
+window.addEventListener("keyup",e=>{
+
+    if(
+        e.code==="Space" ||
+        e.code==="ArrowUp" ||
+        e.code==="KeyW"
+    ){
+
+        jumpPressed=false;
+
+    }
+
+});
+
+canvas.addEventListener("pointerdown",()=>{
+
+    jump();
+
+});
+
+
+/* =========================================================
+   UI
+   ========================================================= */
+
+const message = document.getElementById("message");
+const messageTitle = document.getElementById("messageTitle");
+const messageText = document.getElementById("messageText");
+
+function showMessage(title,text){
+
+    messageTitle.textContent=title;
+    messageText.textContent=text;
+
+    message.classList.add("show");
+
+}
+
+function hideMessage(){
+
+    message.classList.remove("show");
+
+}
+
+function updateUI(){
+
+    let percent=Math.min(
+        100,
+        Math.floor((player.x/levelLength)*100)
+    );
+
+    document.getElementById("progress").style.width=percent+"%";
+
+    document.getElementById("percent").textContent=
+        percent+"%";
+
+    document.getElementById("attempt").textContent=
+        "ATTEMPT "+attempt;
+
+}
+
+
+/* =========================================================
+   PARTICLES
+   ========================================================= */
+
+function particle(x,y,vx,vy,size,life){
+
+    particles.push({
+        x,
+        y,
+        vx,
+        vy,
+        size,
+        life,
+        maxLife:life
+    });
+
+}
+
+function createJumpParticles(){
+
+    for(let i=0;i<8;i++){
+
+        particle(
+            player.x+player.size/2,
+            player.y+player.size,
+            (Math.random()-.5)*3,
+            Math.random()*2,
+            Math.random()*4+2,
+            25
+        );
+
+    }
+
+}
+
+function createDeathParticles(){
+
+    for(let i=0;i<35;i++){
+
+        particle(
+            player.x+player.size/2,
+            player.y+player.size/2,
+            (Math.random()-.5)*9,
+            (Math.random()-.5)*9,
+            Math.random()*5+2,
+            45
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   COLLISION
+   ========================================================= */
+
+function rectCollision(a,b){
+
+    return (
+        a.x < b.x+b.w &&
+        a.x+a.w > b.x &&
+        a.y < b.y+b.h &&
+        a.y+a.h > b.y
+    );
+
+}
+
+
+function spikeCollision(s){
+
+    const sx=s.x;
+    const sy=s.y;
+    const size=s.size;
+
+    const px=player.x;
+    const py=player.y;
+    const ps=player.size;
+
+    const closestX=Math.max(
+        sx,
+        Math.min(px+ps/2,sx+size)
+    );
+
+    const closestY=Math.max(
+        sy,
+        Math.min(py+ps/2,sy+size)
+    );
+
+    const dx=px+ps/2-closestX;
+    const dy=py+ps/2-closestY;
+
+    return dx*dx+dy*dy < (ps*.38)*(ps*.38);
+}
+
+
+/* =========================================================
+   PLAYER UPDATE
+   ========================================================= */
+
+function updatePlayer(){
+
+    if(!gameStarted || gameOver || completed){
+
+        return;
+    }
+
+    let oldY=player.y;
+
+    player.x += speed;
+
+    player.vy += player.gravity;
+
+    player.y += player.vy;
+
+    player.grounded=false;
+
+    /* Platforms */
+
+    const allPlatforms=[
+        ...platforms,
+        ...blocks
+    ];
+
+    for(const p of allPlatforms){
+
+        const horizontal =
+            player.x+player.size > p.x &&
+            player.x < p.x+p.w;
+
+        if(!horizontal) continue;
+
+        const previousBottom=
+            oldY+player.size;
+
+        const currentBottom=
+            player.y+player.size;
+
+        if(
+            player.vy>=0 &&
+            previousBottom<=p.y &&
+            currentBottom>=p.y
+        ){
+
+            player.y=p.y-player.size;
+
+            player.vy=0;
+
+            player.grounded=true;
+
+        }
+
+        else if(
+            player.vy<0 &&
+            oldY>=p.y+p.h &&
+            player.y<=p.y+p.h
+        ){
+
+            player.y=p.y+p.h;
+
+            player.vy=0;
+
+        }
+
+    }
+
+
+    /* Pads */
+
+    for(const p of pads){
+
+        const hit =
+            player.x+player.size > p.x &&
+            player.x < p.x+p.w &&
+            player.y+player.size >= p.y &&
+            player.y+player.size <= p.y+18;
+
+        if(hit){
+
+            player.vy=-20;
+
+            createJumpParticles();
+
+        }
+
+    }
+
+
+    /* Spikes */
+
+    for(const s of spikes){
+
+        if(
+            s.x < player.x+player.size &&
+            s.x+s.size > player.x &&
+            s.y < player.y+player.size &&
+            s.y+s.size > player.y
+        ){
+
+            if(spikeCollision(s)){
+
+                die();
+
+                return;
+
+            }
+
+        }
+
+    }
+
+
+    /* Portals */
+
+    for(const p of portals){
+
+        if(
+            !p.used &&
+            player.x > p.x
+        ){
+
+            p.used=true;
+
+            if(p.type==="fast"){
+
+                speed=9;
+
+            }
+
+            if(p.type==="normal"){
+
+                speed=6.5;
+
+            }
+
+        }
+
+    }
+
+
+    /* Fall */
+
+    if(player.y > H+400){
+
+        die();
+
+        return;
+
+    }
+
+
+    /* Rotation */
+
+    if(!player.grounded){
+
+        player.rotation += .15;
+
+    }
+    else{
+
+        const snap=Math.PI/2;
+
+        player.rotation=
+            Math.round(player.rotation/snap)*snap;
+
+    }
+
+
+    /* Trail */
+
+    trail.push({
+        x:player.x,
+        y:player.y,
+        rotation:player.rotation,
+        life:18
+    });
+
+    if(trail.length>20){
+
+        trail.shift();
+
+    }
+
+}
+
+
+/* =========================================================
+   DEATH
+   ========================================================= */
+
+function die(){
+
+    if(gameOver) return;
+
+    gameOver=true;
+
+    player.alive=false;
+
+    shake=15;
+
+    createDeathParticles();
+
+    showMessage(
+        "CRASHED",
+        "CLICK OR PRESS SPACE TO RETRY"
+    );
+
+}
+
+
+/* =========================================================
+   RESTART
+   ========================================================= */
+
+function restart(){
+
+    player.x=120;
+    player.y=200;
+    player.vy=0;
+    player.rotation=0;
+    player.grounded=false;
+    player.alive=true;
+
+    cameraX=0;
+
+    speed=6.5;
+
+    distance=0;
+
+    gameOver=false;
+
+    completed=false;
+
+    gameStarted=true;
+
+    particles=[];
+
+    trail=[];
+
+    for(const p of portals){
+
+        p.used=false;
+
+    }
+
+    attempt++;
+
+    hideMessage();
+
+}
+
+
+/* =========================================================
+   COMPLETE
+   ========================================================= */
+
+function finish(){
+
+    completed=true;
+
+    gameStarted=false;
+
+    showMessage(
+        "LEVEL COMPLETE",
+        "CLICK OR PRESS SPACE TO PLAY AGAIN"
+    );
+
+}
+
+
+/* =========================================================
+   PARTICLE UPDATE
+   ========================================================= */
+
+function updateParticles(){
+
+    for(let i=particles.length-1;i>=0;i--){
+
+        const p=particles[i];
+
+        p.x+=p.vx;
+
+        p.y+=p.vy;
+
+        p.vy+=.15;
+
+        p.life--;
+
+        if(p.life<=0){
+
+            particles.splice(i,1);
+
+        }
+
+    }
+
+    for(let i=trail.length-1;i>=0;i--){
+
+        trail[i].life--;
+
+        if(trail[i].life<=0){
+
+            trail.splice(i,1);
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   CAMERA
+   ========================================================= */
+
+function updateCamera(){
+
+    const target=
+        player.x-W*.30;
+
+    cameraX +=
+        (target-cameraX)*.12;
+
+    if(cameraX<0){
+
+        cameraX=0;
+
+    }
+
+}
+
+
+/* =========================================================
+   DRAW BACKGROUND
+   ========================================================= */
+
+function drawBackground(){
+
+    const gradient=ctx.createLinearGradient(
+        0,
+        0,
+        0,
+        H
+    );
+
+    gradient.addColorStop(0,"#090b18");
+    gradient.addColorStop(.5,"#10152b");
+    gradient.addColorStop(1,"#06070d");
+
+    ctx.fillStyle=gradient;
+
+    ctx.fillRect(0,0,W,H);
+
+
+    /* grid */
+
+    ctx.save();
+
+    ctx.globalAlpha=.08;
+
+    ctx.strokeStyle="#ffffff";
+
+    ctx.lineWidth=1;
+
+    const grid=50;
+
+    let offset=-(cameraX%grid);
+
+    for(let x=offset;x<W;x+=grid){
+
+        ctx.beginPath();
+
+        ctx.moveTo(x,0);
+        ctx.lineTo(x,H);
+
+        ctx.stroke();
+
+    }
+
+    for(let y=0;y<H;y+=grid){
+
+        ctx.beginPath();
+
+        ctx.moveTo(0,y);
+        ctx.lineTo(W,y);
+
+        ctx.stroke();
+
+    }
+
+    ctx.restore();
+
+
+    /* horizon glow */
+
+    const horizon=
+        screenY(50);
+
+    const glow=ctx.createLinearGradient(
+        0,
+        horizon-120,
+        0,
+        horizon+150
+    );
+
+    glow.addColorStop(
+        0,
+        "rgba(80,110,255,0)"
+    );
+
+    glow.addColorStop(
+        .5,
+        "rgba(80,110,255,.08)"
+    );
+
+    glow.addColorStop(
+        1,
+        "rgba(80,110,255,0)"
+    );
+
+    ctx.fillStyle=glow;
+
+    ctx.fillRect(
+        0,
+        horizon-120,
+        W,
+        270
+    );
+
+}
+
+
+/* =========================================================
+   WORLD TO SCREEN
+   ========================================================= */
+
+function screenX(x){
+
+    return x-cameraX;
+
+}
+
+function screenY(y){
+
+    const base=H*.72;
+
+    return base-y;
+
+}
+
+
+/* =========================================================
+   DRAW PLATFORM
+   ========================================================= */
+
+function drawPlatform(p){
+
+    const x=screenX(p.x);
+    const y=screenY(p.y);
+
+    if(x>W+100 || x+p.w<-100) return;
+
+    ctx.fillStyle="#151b31";
+
+    ctx.fillRect(
+        x,
+        y,
+        p.w,
+        p.h
+    );
+
+    ctx.strokeStyle="#46537f";
+
+    ctx.lineWidth=1;
+
+    ctx.strokeRect(
+        x+.5,
+        y+.5,
+        p.w-1,
+        p.h-1
+    );
+
+    /* top glow */
+
+    ctx.fillStyle="#778cff";
+
+    ctx.fillRect(
+        x,
+        y,
+        p.w,
+        2
+    );
+
+}
+
+
+/* =========================================================
+   DRAW SPIKE
+   ========================================================= */
+
+function drawSpike(s){
+
+    const x=screenX(s.x);
+    const y=screenY(s.y);
+
+    if(x>W+100 || x+s.size<-100) return;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        x,
+        y+s.size
+    );
+
+    ctx.lineTo(
+        x+s.size/2,
+        y
+    );
+
+    ctx.lineTo(
+        x+s.size,
+        y+s.size
+    );
+
+    ctx.closePath();
+
+    ctx.fillStyle="#f2f2f2";
+
+    ctx.fill();
+
+    ctx.strokeStyle="#9ba8ff";
+
+    ctx.stroke();
+
+}
+
+
+/* =========================================================
+   DRAW PAD
+   ========================================================= */
+
+function drawPad(p){
+
+    const x=screenX(p.x);
+    const y=screenY(p.y);
+
+    ctx.fillStyle="#ffffff";
+
+    ctx.fillRect(
+        x,
+        y,
+        p.w,
+        p.h
+    );
+
+    ctx.fillStyle="#7285ff";
+
+    ctx.fillRect(
+        x+4,
+        y+2,
+        p.w-8,
+        3
+    );
+
+}
+
+
+/* =========================================================
+   DRAW PORTAL
+   ========================================================= */
+
+function drawPortal(p){
+
+    const x=screenX(p.x);
+
+    if(x<-100 || x>W+100) return;
+
+    const y=H*.72-65;
+
+    ctx.save();
+
+    ctx.strokeStyle=
+        p.type==="fast"
+        ? "#ff5cf4"
+        : "#5cf4ff";
+
+    ctx.lineWidth=5;
+
+    ctx.shadowBlur=20;
+
+    ctx.shadowColor=ctx.strokeStyle;
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        x,
+        y,
+        28,
+        65,
+        0,
+        0,
+        Math.PI*2
+    );
+
+    ctx.stroke();
+
+    ctx.restore();
+
+}
+
+
+/* =========================================================
+   DRAW PLAYER
+   ========================================================= */
+
+function drawPlayer(){
+
+    const x=screenX(player.x);
+
+    const y=screenY(player.y);
+
+    /* trail */
+
+    for(const t of trail){
+
+        const tx=screenX(t.x);
+
+        const ty=screenY(t.y);
+
+        const alpha=t.life/18*.18;
+
+        ctx.save();
+
+        ctx.globalAlpha=alpha;
+
+        ctx.translate(
+            tx+player.size/2,
+            ty+player.size/2
+        );
+
+        ctx.rotate(t.rotation);
+
+        ctx.fillStyle="#ffffff";
+
+        ctx.fillRect(
+            -player.size/2,
+            -player.size/2,
+            player.size,
+            player.size
+        );
+
+        ctx.restore();
+
+    }
+
+
+    /* player */
+
+    ctx.save();
+
+    ctx.translate(
+        x+player.size/2,
+        y+player.size/2
+    );
+
+    ctx.rotate(player.rotation);
+
+    ctx.shadowBlur=18;
+
+    ctx.shadowColor="#ffffff";
+
+    ctx.fillStyle="#ffffff";
+
+    ctx.fillRect(
+        -player.size/2,
+        -player.size/2,
+        player.size,
+        player.size
+    );
+
+    ctx.shadowBlur=0;
+
+    /* inner */
+
+    ctx.fillStyle="#111526";
+
+    ctx.fillRect(
+        -9,
+        -9,
+        18,
+        18
+    );
+
+    /* eyes */
+
+    ctx.fillStyle="#ffffff";
+
+    ctx.fillRect(
+        -7,
+        -5,
+        4,
+        4
+    );
+
+    ctx.fillRect(
+        3,
+        -5,
+        4,
+        4
+    );
+
+    ctx.restore();
+
+}
+
+
+/* =========================================================
+   DRAW PARTICLES
+   ========================================================= */
+
+function drawParticles(){
+
+    for(const p of particles){
+
+        ctx.save();
+
+        ctx.globalAlpha=
+            Math.max(0,p.life/p.maxLife);
+
+        ctx.fillStyle="#ffffff";
+
+        ctx.fillRect(
+            screenX(p.x),
+            screenY(p.y),
+            p.size,
+            p.size
+        );
+
+        ctx.restore();
+
+    }
+
+}
+
+
+/* =========================================================
+   DRAW FINISH
+   ========================================================= */
+
+function drawFinish(){
+
+    const x=screenX(levelLength-300);
+
+    if(x<-100 || x>W+100) return;
+
+    ctx.save();
+
+    ctx.strokeStyle="#ffffff";
+
+    ctx.lineWidth=3;
+
+    ctx.shadowBlur=25;
+
+    ctx.shadowColor="#ffffff";
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        x,
+        screenY(0)
+    );
+
+    ctx.lineTo(
+        x,
+        screenY(280)
+    );
+
+    ctx.stroke();
+
+    ctx.fillStyle="#ffffff";
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        x,
+        screenY(270)
+    );
+
+    ctx.lineTo(
+        x+90,
+        screenY(230)
+    );
+
+    ctx.lineTo(
+        x,
+        screenY(190)
+    );
+
+    ctx.closePath();
+
+    ctx.fill();
+
+    ctx.restore();
+
+}
+
+
+/* =========================================================
+   DRAW EVERYTHING
+   ========================================================= */
+
+function draw(){
+
+    ctx.clearRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+    ctx.save();
+
+    if(shake>0){
+
+        ctx.translate(
+            (Math.random()-.5)*shake,
+            (Math.random()-.5)*shake
+        );
+
+        shake*=.88;
+
+        if(shake<.2){
+            shake=0;
+        }
+
+    }
+
+    drawBackground();
+
+    /* world */
+
+    for(const p of platforms){
+
+        drawPlatform(p);
+
+    }
+
+    for(const b of blocks){
+
+        drawPlatform(b);
+
+    }
+
+    for(const s of spikes){
+
+        drawSpike(s);
+
+    }
+
+    for(const p of pads){
+
+        drawPad(p);
+
+    }
+
+    for(const p of portals){
+
+        drawPortal(p);
+
+    }
+
+    drawFinish();
+
+    drawParticles();
+
+    drawPlayer();
+
+    ctx.restore();
+
+}
+
+
+/* =========================================================
+   GAME LOOP
+   ========================================================= */
+
+let last=performance.now();
+
+function loop(now){
+
+    const dt=Math.min(
+        (now-last)/16.666,
+        2
+    );
+
+    last=now;
+
+    if(gameStarted && !gameOver && !completed){
+
+        for(let i=0;i<dt;i++){
+
+            updatePlayer();
+
+        }
+
+        updateCamera();
+
+        updateUI();
+
+        if(player.x>=levelLength){
+
+            finish();
+
+        }
+
+    }
+
+    updateParticles();
+
+    draw();
+
+    requestAnimationFrame(loop);
+
+}
+
+player.y=200;
+
+showMessage(
+    "DASHLINE",
+    "CLICK OR PRESS SPACE TO START"
+);
+
+requestAnimationFrame(loop);
 
 </script>
 
