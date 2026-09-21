@@ -20,12 +20,6 @@ html,body{
     font-family:Arial,Helvetica,sans-serif;
 }
 
-body{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
 canvas{
     display:block;
     width:100vw;
@@ -64,7 +58,7 @@ canvas{
 #progress{
     width:0%;
     height:100%;
-    background:#fff;
+    background:white;
 }
 
 #percent{
@@ -94,12 +88,12 @@ canvas{
     justify-content:center;
     flex-direction:column;
     text-align:center;
-    opacity:0;
+    opacity:1;
     transition:.25s;
 }
 
-#message.show{
-    opacity:1;
+#message.hidden{
+    opacity:0;
 }
 
 #message h1{
@@ -133,18 +127,13 @@ canvas{
     <div id="attempt">ATTEMPT 1</div>
 
     <div id="message">
-        <h1 id="messageTitle">READY</h1>
-        <p id="messageText">CLICK OR PRESS SPACE</p>
+        <h1 id="messageTitle">DASHLINE</h1>
+        <p id="messageText">CLICK OR PRESS SPACE TO START</p>
     </div>
 
 </div>
 
 <script>
-
-/* =========================================================
-   DASHLINE
-   Original browser platform game
-   ========================================================= */
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -173,11 +162,9 @@ window.addEventListener("resize",resize);
 resize();
 
 
-/* =========================================================
-   GAME SETTINGS
-   ========================================================= */
-
-const groundY = 0;
+/* =========================
+   PLAYER
+========================= */
 
 const player = {
 
@@ -188,100 +175,78 @@ const player = {
 
     vy:0,
 
-    gravity:0.92,
+    gravity:0.9,
 
-    jumpPower:-15.8,
+    jumpPower:-15,
 
-    grounded:false,
+    grounded:true,
 
     rotation:0,
 
-    alive:true,
-
-    color:"#ffffff"
+    alive:true
 
 };
 
-let cameraX = 0;
 
-let speed = 6.5;
+/* =========================
+   GAME STATE
+========================= */
 
-let gameStarted = false;
+let cameraX=0;
 
-let gameOver = false;
+let speed=6.5;
 
-let completed = false;
+let gameStarted=false;
 
-let attempt = 1;
+let gameOver=false;
 
-let distance = 0;
+let completed=false;
 
-let shake = 0;
+let attempt=1;
 
-let particles = [];
+let shake=0;
 
-let trail = [];
+let particles=[];
 
+let trail=[];
 
-/* =========================================================
-   LEVEL
-   ========================================================= */
-
-const levelLength = 18500;
-
-const platforms = [];
-
-const spikes = [];
-
-const pads = [];
-
-const portals = [];
-
-const blocks = [];
+const levelLength=18500;
 
 
-/* Add platform */
+/* =========================
+   LEVEL OBJECTS
+========================= */
 
-function platform(x,y,w,h=30){
+const platforms=[];
+const spikes=[];
+const pads=[];
+const portals=[];
+const blocks=[];
+
+
+function platform(x,y,w,h=50){
 
     platforms.push({
-        x,
-        y,
-        w,
-        h
+        x,y,w,h
     });
 
 }
-
-
-/* Add spike */
 
 function spike(x,y,size=38){
 
     spikes.push({
-        x,
-        y,
-        size
+        x,y,size
     });
 
 }
 
-
-/* Add jump pad */
-
-function pad(x,y,w=45){
+function pad(x,y,w=50){
 
     pads.push({
-        x,
-        y,
-        w,
-        h:10
+        x,y,w,h:10
     });
 
 }
-
-
-/* Add portal */
 
 function portal(x,type){
 
@@ -293,24 +258,18 @@ function portal(x,type){
 
 }
 
-
-/* Add block */
-
 function block(x,y,w,h){
 
     blocks.push({
-        x,
-        y,
-        w,
-        h
+        x,y,w,h
     });
 
 }
 
 
-/* =========================================================
-   LEVEL GENERATION
-   ========================================================= */
+/* =========================
+   LEVEL
+========================= */
 
 function buildLevel(){
 
@@ -320,88 +279,71 @@ function buildLevel(){
     portals.length=0;
     blocks.length=0;
 
-    /* Starting floor */
-
-    platform(-500,0,1100,50);
-
-    /* Section 1 */
+    platform(-500,0,1200);
 
     spike(680,50);
     spike(730,50);
 
-    platform(800,0,260,50);
+    platform(800,0,260);
 
     spike(1110,50);
     spike(1160,50);
     spike(1210,50);
 
-    platform(1280,0,330,50);
+    platform(1280,0,330);
 
     spike(1450,50);
 
-    /* Section 2 */
-
-    platform(1680,0,160,50);
-    platform(1900,85,160,35);
-    platform(2130,150,180,35);
-    platform(2380,80,180,35);
-    platform(2640,0,280,50);
+    platform(1680,0,160);
+    platform(1900,85,160);
+    platform(2130,150,180);
+    platform(2380,80,180);
+    platform(2640,0,280);
 
     spike(2750,50);
     spike(2800,50);
 
-    /* Section 3 */
-
-    platform(3000,0,300,50);
+    platform(3000,0,300);
 
     block(3150,50,45,90);
     block(3300,50,45,150);
 
+    platform(3400,0,500);
+
     spike(3500,50);
     spike(3550,50);
 
-    platform(3400,0,500,50);
-
-    /* Section 4 */
-
+    platform(3950,0,120);
     pad(4000,50);
 
-    platform(3950,0,120,50);
-    platform(4200,130,220,35);
-    platform(4500,230,220,35);
-    platform(4800,130,220,35);
-    platform(5100,0,350,50);
-
-    /* Section 5 */
+    platform(4200,130,220);
+    platform(4500,230,220);
+    platform(4800,130,220);
+    platform(5100,0,350);
 
     spike(5250,50);
     spike(5300,50);
     spike(5350,50);
 
-    platform(5550,0,160,50);
-
+    platform(5550,0,160);
     pad(5660,50);
 
-    platform(5800,150,190,35);
-    platform(6080,80,190,35);
-    platform(6360,0,260,50);
-
-    /* Section 6 */
+    platform(5800,150,190);
+    platform(6080,80,190);
+    platform(6360,0,260);
 
     spike(6500,50);
     spike(6550,50);
+
+    platform(6650,0,500);
 
     block(6700,50,50,130);
     block(6800,50,50,200);
     block(6900,50,50,130);
 
-    platform(6650,0,500,50);
-
     portal(7200,"fast");
 
-    /* Fast section */
-
-    platform(7100,0,1200,50);
+    platform(7100,0,1200);
 
     spike(7350,50);
     spike(7395,50);
@@ -418,35 +360,29 @@ function buildLevel(){
 
     portal(8500,"normal");
 
-    /* Section 7 */
+    platform(8400,0,300);
 
-    platform(8400,0,300,50);
+    platform(8800,100,160);
+    platform(9050,170,160);
+    platform(9300,100,160);
 
-    platform(8800,100,160,35);
-    platform(9050,170,160,35);
-    platform(9300,100,160,35);
-
-    platform(9550,0,300,50);
+    platform(9550,0,300);
 
     spike(9680,50);
     spike(9730,50);
 
-    /* Section 8 */
-
+    platform(9900,0,180);
     pad(10050,50);
 
-    platform(9900,0,180,50);
-    platform(10300,150,190,35);
-    platform(10600,70,190,35);
-    platform(10900,0,300,50);
+    platform(10300,150,190);
+    platform(10600,70,190);
+    platform(10900,0,300);
 
     spike(11050,50);
     spike(11100,50);
     spike(11150,50);
 
-    /* Section 9 */
-
-    platform(11400,0,800,50);
+    platform(11400,0,800);
 
     for(let x=11550;x<12100;x+=110){
         spike(x,50);
@@ -454,7 +390,7 @@ function buildLevel(){
 
     portal(12300,"fast");
 
-    platform(12200,0,1300,50);
+    platform(12200,0,1300);
 
     for(let x=12400;x<13400;x+=125){
         spike(x,50);
@@ -462,24 +398,19 @@ function buildLevel(){
 
     portal(13500,"normal");
 
-    /* Section 10 */
+    platform(13400,0,300);
 
-    platform(13400,0,300,50);
+    platform(13800,120,180);
+    platform(14100,220,180);
+    platform(14400,120,180);
 
-    platform(13800,120,180,35);
-    platform(14100,220,180,35);
-    platform(14400,120,180,35);
-
-    pad(14600,155);
-
-    platform(14600,0,400,50);
+    platform(14600,0,400);
+    pad(14600,50);
 
     spike(14800,50);
     spike(14850,50);
 
-    /* Final */
-
-    platform(15150,0,900,50);
+    platform(15150,0,900);
 
     spike(15300,50);
     spike(15350,50);
@@ -491,47 +422,94 @@ function buildLevel(){
     spike(15900,50);
     spike(15950,50);
 
-    platform(16100,0,400,50);
+    platform(16100,0,400);
 
+    platform(16350,0,700);
     pad(16400,50);
-
-    platform(16350,0,700,50);
 
     spike(16600,50);
     spike(16650,50);
     spike(16700,50);
 
-    platform(16900,0,700,50);
+    platform(16900,0,700);
 
     spike(17100,50);
     spike(17150,50);
 
-    platform(17300,0,900,50);
+    platform(17300,0,900);
 
     for(let x=17500;x<17900;x+=100){
         spike(x,50);
     }
 
-    platform(18000,0,700,50);
+    platform(18000,0,700);
 }
 
 buildLevel();
 
 
-/* =========================================================
-   INPUT
-   ========================================================= */
+/* =========================
+   UI
+========================= */
 
-let jumpPressed=false;
+const message=document.getElementById("message");
+const messageTitle=document.getElementById("messageTitle");
+const messageText=document.getElementById("messageText");
+
+function showMessage(title,text){
+
+    messageTitle.textContent=title;
+    messageText.textContent=text;
+
+    message.classList.remove("hidden");
+}
+
+function hideMessage(){
+
+    message.classList.add("hidden");
+}
+
+function updateUI(){
+
+    const percent=Math.min(
+        100,
+        Math.floor(player.x/levelLength*100)
+    );
+
+    document.getElementById("progress").style.width=
+        percent+"%";
+
+    document.getElementById("percent").textContent=
+        percent+"%";
+
+    document.getElementById("attempt").textContent=
+        "ATTEMPT "+attempt;
+}
+
+
+/* =========================
+   START / JUMP
+========================= */
 
 function jump(){
 
-    if(completed){
+    /* If the game hasn't started,
+       start it AND immediately jump. */
 
-        restart();
+    if(!gameStarted){
+
+        gameStarted=true;
+
+        hideMessage();
+
+        player.grounded=true;
+
+        player.vy=player.jumpPower;
 
         return;
     }
+
+    /* Restart after death */
 
     if(gameOver){
 
@@ -540,14 +518,16 @@ function jump(){
         return;
     }
 
-    if(!gameStarted){
+    /* Restart after completion */
 
-        gameStarted=true;
+    if(completed){
 
-        hideMessage();
+        restart();
 
         return;
     }
+
+    /* Normal jump */
 
     if(player.grounded){
 
@@ -556,13 +536,22 @@ function jump(){
         player.grounded=false;
 
         createJumpParticles();
-
     }
-
 }
 
 
-window.addEventListener("keydown",e=>{
+/* Mouse / touchscreen */
+
+canvas.addEventListener("pointerdown",function(){
+
+    jump();
+
+});
+
+
+/* Keyboard */
+
+window.addEventListener("keydown",function(e){
 
     if(
         e.code==="Space" ||
@@ -572,140 +561,23 @@ window.addEventListener("keydown",e=>{
 
         e.preventDefault();
 
-        if(!jumpPressed){
-
-            jumpPressed=true;
+        if(!e.repeat){
 
             jump();
 
         }
-
     }
 
 });
 
-window.addEventListener("keyup",e=>{
 
-    if(
-        e.code==="Space" ||
-        e.code==="ArrowUp" ||
-        e.code==="KeyW"
-    ){
-
-        jumpPressed=false;
-
-    }
-
-});
-
-canvas.addEventListener("pointerdown",()=>{
-
-    jump();
-
-});
-
-
-/* =========================================================
-   UI
-   ========================================================= */
-
-const message = document.getElementById("message");
-const messageTitle = document.getElementById("messageTitle");
-const messageText = document.getElementById("messageText");
-
-function showMessage(title,text){
-
-    messageTitle.textContent=title;
-    messageText.textContent=text;
-
-    message.classList.add("show");
-
-}
-
-function hideMessage(){
-
-    message.classList.remove("show");
-
-}
-
-function updateUI(){
-
-    let percent=Math.min(
-        100,
-        Math.floor((player.x/levelLength)*100)
-    );
-
-    document.getElementById("progress").style.width=percent+"%";
-
-    document.getElementById("percent").textContent=
-        percent+"%";
-
-    document.getElementById("attempt").textContent=
-        "ATTEMPT "+attempt;
-
-}
-
-
-/* =========================================================
-   PARTICLES
-   ========================================================= */
-
-function particle(x,y,vx,vy,size,life){
-
-    particles.push({
-        x,
-        y,
-        vx,
-        vy,
-        size,
-        life,
-        maxLife:life
-    });
-
-}
-
-function createJumpParticles(){
-
-    for(let i=0;i<8;i++){
-
-        particle(
-            player.x+player.size/2,
-            player.y+player.size,
-            (Math.random()-.5)*3,
-            Math.random()*2,
-            Math.random()*4+2,
-            25
-        );
-
-    }
-
-}
-
-function createDeathParticles(){
-
-    for(let i=0;i<35;i++){
-
-        particle(
-            player.x+player.size/2,
-            player.y+player.size/2,
-            (Math.random()-.5)*9,
-            (Math.random()-.5)*9,
-            Math.random()*5+2,
-            45
-        );
-
-    }
-
-}
-
-
-/* =========================================================
+/* =========================
    COLLISION
-   ========================================================= */
+========================= */
 
 function rectCollision(a,b){
 
-    return (
+    return(
         a.x < b.x+b.w &&
         a.x+a.w > b.x &&
         a.y < b.y+b.h &&
@@ -717,77 +589,75 @@ function rectCollision(a,b){
 
 function spikeCollision(s){
 
-    const sx=s.x;
-    const sy=s.y;
-    const size=s.size;
+    const left=s.x;
+    const right=s.x+s.size;
+
+    const top=s.y;
+    const bottom=s.y+s.size;
 
     const px=player.x;
     const py=player.y;
-    const ps=player.size;
 
-    const closestX=Math.max(
-        sx,
-        Math.min(px+ps/2,sx+size)
+    return(
+        px+player.size > left+5 &&
+        px < right-5 &&
+        py+player.size > top+8 &&
+        py < bottom
     );
-
-    const closestY=Math.max(
-        sy,
-        Math.min(py+ps/2,sy+size)
-    );
-
-    const dx=px+ps/2-closestX;
-    const dy=py+ps/2-closestY;
-
-    return dx*dx+dy*dy < (ps*.38)*(ps*.38);
 }
 
 
-/* =========================================================
-   PLAYER UPDATE
-   ========================================================= */
+/* =========================
+   PLAYER
+========================= */
 
 function updatePlayer(){
 
     if(!gameStarted || gameOver || completed){
-
         return;
     }
 
-    let oldY=player.y;
+    const oldY=player.y;
 
-    player.x += speed;
+    player.x+=speed;
 
-    player.vy += player.gravity;
+    player.vy+=player.gravity;
 
-    player.y += player.vy;
+    player.y+=player.vy;
 
     player.grounded=false;
 
-    /* Platforms */
 
-    const allPlatforms=[
+    const surfaces=[
         ...platforms,
         ...blocks
     ];
 
-    for(const p of allPlatforms){
 
-        const horizontal =
-            player.x+player.size > p.x &&
-            player.x < p.x+p.w;
+    /* Platform collision */
+
+    for(const p of surfaces){
+
+        const horizontal=
+            player.x+player.size>p.x &&
+            player.x<p.x+p.w;
 
         if(!horizontal) continue;
 
-        const previousBottom=
+
+        const oldBottom=
             oldY+player.size;
 
-        const currentBottom=
+        const newBottom=
             player.y+player.size;
+
+
+        /* Landing */
 
         if(
             player.vy>=0 &&
-            previousBottom<=p.y &&
-            currentBottom>=p.y
+            oldBottom<=p.y &&
+            newBottom>=p.y
         ){
 
             player.y=p.y-player.size;
@@ -795,10 +665,12 @@ function updatePlayer(){
             player.vy=0;
 
             player.grounded=true;
-
         }
 
-        else if(
+
+        /* Hitting underside */
+
+        if(
             player.vy<0 &&
             oldY>=p.y+p.h &&
             player.y<=p.y+p.h
@@ -807,30 +679,29 @@ function updatePlayer(){
             player.y=p.y+p.h;
 
             player.vy=0;
-
         }
 
     }
 
 
-    /* Pads */
+    /* Jump pads */
 
     for(const p of pads){
 
-        const hit =
-            player.x+player.size > p.x &&
-            player.x < p.x+p.w &&
-            player.y+player.size >= p.y &&
-            player.y+player.size <= p.y+18;
+        const touching=
+            player.x+player.size>p.x &&
+            player.x<p.x+p.w &&
+            player.y+player.size>=p.y &&
+            player.y+player.size<=p.y+20;
 
-        if(hit){
+        if(touching){
 
             player.vy=-20;
 
+            player.grounded=false;
+
             createJumpParticles();
-
         }
-
     }
 
 
@@ -839,10 +710,10 @@ function updatePlayer(){
     for(const s of spikes){
 
         if(
-            s.x < player.x+player.size &&
-            s.x+s.size > player.x &&
-            s.y < player.y+player.size &&
-            s.y+s.size > player.y
+            s.x<player.x+player.size &&
+            s.x+s.size>player.x &&
+            s.y<player.y+player.size &&
+            s.y+s.size>player.y
         ){
 
             if(spikeCollision(s)){
@@ -850,11 +721,8 @@ function updatePlayer(){
                 die();
 
                 return;
-
             }
-
         }
-
     }
 
 
@@ -862,38 +730,28 @@ function updatePlayer(){
 
     for(const p of portals){
 
-        if(
-            !p.used &&
-            player.x > p.x
-        ){
+        if(!p.used && player.x>p.x){
 
             p.used=true;
 
             if(p.type==="fast"){
-
                 speed=9;
-
             }
 
             if(p.type==="normal"){
-
                 speed=6.5;
-
             }
-
         }
-
     }
 
 
-    /* Fall */
+    /* Falling */
 
-    if(player.y > H+400){
+    if(player.y<-300){
 
         die();
 
         return;
-
     }
 
 
@@ -901,16 +759,14 @@ function updatePlayer(){
 
     if(!player.grounded){
 
-        player.rotation += .15;
+        player.rotation+=0.15;
 
-    }
-    else{
+    }else{
 
         const snap=Math.PI/2;
 
         player.rotation=
             Math.round(player.rotation/snap)*snap;
-
     }
 
 
@@ -924,17 +780,14 @@ function updatePlayer(){
     });
 
     if(trail.length>20){
-
         trail.shift();
-
     }
-
 }
 
 
-/* =========================================================
+/* =========================
    DEATH
-   ========================================================= */
+========================= */
 
 function die(){
 
@@ -952,28 +805,30 @@ function die(){
         "CRASHED",
         "CLICK OR PRESS SPACE TO RETRY"
     );
-
 }
 
 
-/* =========================================================
+/* =========================
    RESTART
-   ========================================================= */
+========================= */
 
 function restart(){
 
     player.x=120;
-    player.y=200;
+
+    player.y=50-player.size;
+
     player.vy=0;
+
+    player.grounded=true;
+
     player.rotation=0;
-    player.grounded=false;
+
     player.alive=true;
 
     cameraX=0;
 
     speed=6.5;
-
-    distance=0;
 
     gameOver=false;
 
@@ -982,25 +837,21 @@ function restart(){
     gameStarted=true;
 
     particles=[];
-
     trail=[];
 
     for(const p of portals){
-
         p.used=false;
-
     }
 
     attempt++;
 
     hideMessage();
-
 }
 
 
-/* =========================================================
+/* =========================
    COMPLETE
-   ========================================================= */
+========================= */
 
 function finish(){
 
@@ -1012,13 +863,58 @@ function finish(){
         "LEVEL COMPLETE",
         "CLICK OR PRESS SPACE TO PLAY AGAIN"
     );
-
 }
 
 
-/* =========================================================
-   PARTICLE UPDATE
-   ========================================================= */
+/* =========================
+   PARTICLES
+========================= */
+
+function particle(x,y,vx,vy,size,life){
+
+    particles.push({
+        x,
+        y,
+        vx,
+        vy,
+        size,
+        life,
+        maxLife:life
+    });
+}
+
+
+function createJumpParticles(){
+
+    for(let i=0;i<8;i++){
+
+        particle(
+            player.x+player.size/2,
+            player.y,
+            (Math.random()-.5)*3,
+            Math.random()*2,
+            Math.random()*4+2,
+            25
+        );
+    }
+}
+
+
+function createDeathParticles(){
+
+    for(let i=0;i<35;i++){
+
+        particle(
+            player.x+player.size/2,
+            player.y+player.size/2,
+            (Math.random()-.5)*9,
+            (Math.random()-.5)*9,
+            Math.random()*5+2,
+            45
+        );
+    }
+}
+
 
 function updateParticles(){
 
@@ -1035,60 +931,59 @@ function updateParticles(){
         p.life--;
 
         if(p.life<=0){
-
             particles.splice(i,1);
-
         }
-
     }
+
 
     for(let i=trail.length-1;i>=0;i--){
 
         trail[i].life--;
 
         if(trail[i].life<=0){
-
             trail.splice(i,1);
-
         }
-
     }
-
 }
 
 
-/* =========================================================
+/* =========================
    CAMERA
-   ========================================================= */
+========================= */
 
 function updateCamera(){
 
-    const target=
-        player.x-W*.30;
+    const target=player.x-W*.30;
 
-    cameraX +=
-        (target-cameraX)*.12;
+    cameraX+=(target-cameraX)*.12;
 
     if(cameraX<0){
-
         cameraX=0;
-
     }
-
 }
 
 
-/* =========================================================
-   DRAW BACKGROUND
-   ========================================================= */
+/* =========================
+   SCREEN COORDINATES
+========================= */
+
+function screenX(x){
+    return x-cameraX;
+}
+
+function screenY(y){
+    return H*.72-y;
+}
+
+
+/* =========================
+   BACKGROUND
+========================= */
 
 function drawBackground(){
 
     const gradient=ctx.createLinearGradient(
-        0,
-        0,
-        0,
-        H
+        0,0,0,H
     );
 
     gradient.addColorStop(0,"#090b18");
@@ -1100,19 +995,15 @@ function drawBackground(){
     ctx.fillRect(0,0,W,H);
 
 
-    /* grid */
-
     ctx.save();
 
     ctx.globalAlpha=.08;
 
     ctx.strokeStyle="#ffffff";
 
-    ctx.lineWidth=1;
-
     const grid=50;
 
-    let offset=-(cameraX%grid);
+    const offset=-(cameraX%grid);
 
     for(let x=offset;x<W;x+=grid){
 
@@ -1122,7 +1013,6 @@ function drawBackground(){
         ctx.lineTo(x,H);
 
         ctx.stroke();
-
     }
 
     for(let y=0;y<H;y+=grid){
@@ -1133,80 +1023,28 @@ function drawBackground(){
         ctx.lineTo(W,y);
 
         ctx.stroke();
-
     }
 
     ctx.restore();
-
-
-    /* horizon glow */
-
-    const horizon=
-        screenY(50);
-
-    const glow=ctx.createLinearGradient(
-        0,
-        horizon-120,
-        0,
-        horizon+150
-    );
-
-    glow.addColorStop(
-        0,
-        "rgba(80,110,255,0)"
-    );
-
-    glow.addColorStop(
-        .5,
-        "rgba(80,110,255,.08)"
-    );
-
-    glow.addColorStop(
-        1,
-        "rgba(80,110,255,0)"
-    );
-
-    ctx.fillStyle=glow;
-
-    ctx.fillRect(
-        0,
-        horizon-120,
-        W,
-        270
-    );
-
 }
 
 
-/* =========================================================
-   WORLD TO SCREEN
-   ========================================================= */
-
-function screenX(x){
-
-    return x-cameraX;
-
-}
-
-function screenY(y){
-
-    const base=H*.72;
-
-    return base-y;
-
-}
-
-
-/* =========================================================
+/* =========================
    DRAW PLATFORM
-   ========================================================= */
+========================= */
 
 function drawPlatform(p){
 
     const x=screenX(p.x);
+
     const y=screenY(p.y);
 
-    if(x>W+100 || x+p.w<-100) return;
+    if(
+        x>W+100 ||
+        x+p.w<-100
+    ){
+        return;
+    }
 
     ctx.fillStyle="#151b31";
 
@@ -1219,16 +1057,12 @@ function drawPlatform(p){
 
     ctx.strokeStyle="#46537f";
 
-    ctx.lineWidth=1;
-
     ctx.strokeRect(
         x+.5,
         y+.5,
         p.w-1,
         p.h-1
     );
-
-    /* top glow */
 
     ctx.fillStyle="#778cff";
 
@@ -1238,20 +1072,25 @@ function drawPlatform(p){
         p.w,
         2
     );
-
 }
 
 
-/* =========================================================
+/* =========================
    DRAW SPIKE
-   ========================================================= */
+========================= */
 
 function drawSpike(s){
 
     const x=screenX(s.x);
+
     const y=screenY(s.y);
 
-    if(x>W+100 || x+s.size<-100) return;
+    if(
+        x>W+100 ||
+        x+s.size<-100
+    ){
+        return;
+    }
 
     ctx.beginPath();
 
@@ -1279,17 +1118,17 @@ function drawSpike(s){
     ctx.strokeStyle="#9ba8ff";
 
     ctx.stroke();
-
 }
 
 
-/* =========================================================
+/* =========================
    DRAW PAD
-   ========================================================= */
+========================= */
 
 function drawPad(p){
 
     const x=screenX(p.x);
+
     const y=screenY(p.y);
 
     ctx.fillStyle="#ffffff";
@@ -1309,19 +1148,20 @@ function drawPad(p){
         p.w-8,
         3
     );
-
 }
 
 
-/* =========================================================
+/* =========================
    DRAW PORTAL
-   ========================================================= */
+========================= */
 
 function drawPortal(p){
 
     const x=screenX(p.x);
 
-    if(x<-100 || x>W+100) return;
+    if(x<-100 || x>W+100){
+        return;
+    }
 
     const y=H*.72-65;
 
@@ -1353,13 +1193,12 @@ function drawPortal(p){
     ctx.stroke();
 
     ctx.restore();
-
 }
 
 
-/* =========================================================
+/* =========================
    DRAW PLAYER
-   ========================================================= */
+========================= */
 
 function drawPlayer(){
 
@@ -1367,7 +1206,6 @@ function drawPlayer(){
 
     const y=screenY(player.y);
 
-    /* trail */
 
     for(const t of trail){
 
@@ -1375,11 +1213,9 @@ function drawPlayer(){
 
         const ty=screenY(t.y);
 
-        const alpha=t.life/18*.18;
-
         ctx.save();
 
-        ctx.globalAlpha=alpha;
+        ctx.globalAlpha=t.life/18*.18;
 
         ctx.translate(
             tx+player.size/2,
@@ -1398,11 +1234,8 @@ function drawPlayer(){
         );
 
         ctx.restore();
-
     }
 
-
-    /* player */
 
     ctx.save();
 
@@ -1428,8 +1261,6 @@ function drawPlayer(){
 
     ctx.shadowBlur=0;
 
-    /* inner */
-
     ctx.fillStyle="#111526";
 
     ctx.fillRect(
@@ -1438,8 +1269,6 @@ function drawPlayer(){
         18,
         18
     );
-
-    /* eyes */
 
     ctx.fillStyle="#ffffff";
 
@@ -1458,13 +1287,12 @@ function drawPlayer(){
     );
 
     ctx.restore();
-
 }
 
 
-/* =========================================================
+/* =========================
    DRAW PARTICLES
-   ========================================================= */
+========================= */
 
 function drawParticles(){
 
@@ -1485,21 +1313,21 @@ function drawParticles(){
         );
 
         ctx.restore();
-
     }
-
 }
 
 
-/* =========================================================
+/* =========================
    DRAW FINISH
-   ========================================================= */
+========================= */
 
 function drawFinish(){
 
     const x=screenX(levelLength-300);
 
-    if(x<-100 || x>W+100) return;
+    if(x<-100 || x>W+100){
+        return;
+    }
 
     ctx.save();
 
@@ -1549,13 +1377,12 @@ function drawFinish(){
     ctx.fill();
 
     ctx.restore();
-
 }
 
 
-/* =========================================================
-   DRAW EVERYTHING
-   ========================================================= */
+/* =========================
+   DRAW
+========================= */
 
 function draw(){
 
@@ -1580,41 +1407,28 @@ function draw(){
         if(shake<.2){
             shake=0;
         }
-
     }
 
     drawBackground();
 
-    /* world */
-
     for(const p of platforms){
-
         drawPlatform(p);
-
     }
 
     for(const b of blocks){
-
         drawPlatform(b);
-
     }
 
     for(const s of spikes){
-
         drawSpike(s);
-
     }
 
     for(const p of pads){
-
         drawPad(p);
-
     }
 
     for(const p of portals){
-
         drawPortal(p);
-
     }
 
     drawFinish();
@@ -1624,13 +1438,12 @@ function draw(){
     drawPlayer();
 
     ctx.restore();
-
 }
 
 
-/* =========================================================
+/* =========================
    GAME LOOP
-   ========================================================= */
+========================= */
 
 let last=performance.now();
 
@@ -1643,12 +1456,14 @@ function loop(now){
 
     last=now;
 
-    if(gameStarted && !gameOver && !completed){
+    if(
+        gameStarted &&
+        !gameOver &&
+        !completed
+    ){
 
         for(let i=0;i<dt;i++){
-
             updatePlayer();
-
         }
 
         updateCamera();
@@ -1656,11 +1471,8 @@ function loop(now){
         updateUI();
 
         if(player.x>=levelLength){
-
             finish();
-
         }
-
     }
 
     updateParticles();
@@ -1668,10 +1480,16 @@ function loop(now){
     draw();
 
     requestAnimationFrame(loop);
-
 }
 
-player.y=200;
+
+/* =========================
+   INITIAL STATE
+========================= */
+
+player.y=0;
+
+player.grounded=true;
 
 showMessage(
     "DASHLINE",
